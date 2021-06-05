@@ -1,6 +1,6 @@
 # like-py-xlsx
 
-TL;DR: Call Python from inside Msft Beta Channel Office 365 Excel - Small Quick Xlsx Download - All Source No Binary
+TL;DR: Call for Python from inside Msft Beta Channel Office 365 Excel - Small Quick Xlsx Download - All Source No Binary
 
 Contents
 
@@ -85,9 +85,9 @@ Got some other piece of Python you like?
 
 ## 7 Please help us
 
-These are early days as yet, not much here - If you look for something exotic, you won't find it yet - If you surprise this code with new test cases, it will betray you today
+These are our early days, not much here yet - If you look for something difficult, you won't find here - If you surprise this code with new test cases, it will betray you today
 
-Tweeting the bugs you find and the features you want to our crowd gathered in Twitter as @pelavarre is an easy way to try and make this better
+Please consider tweeting the bugs you find & the features you want, come find me at https://twitter.com/pelavarre
 
 Do you love our "like-py.xlsx" like you love pie?
 
