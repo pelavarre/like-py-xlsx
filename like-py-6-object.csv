@@ -1,0 +1,152 @@
+
+
+,Object
+
+,for when you have one Object
+,"tagged by some Excel Type Code such as 4 Bool, 1 Int or Float, 16 Exception, 64 List, or 2 Str"
+,"(and probably not tagged by the poorly doc'ed Excel Type Codes of 0, 8, 32, and 128)"
+
+
+,,,,def _abs(f)
+,,,,"=LAMBDA(f, ABS(f))"
+
+
+,,,,def _all(items)
+,,,,"=LAMBDA(obj,
+        SWITCH(TYPE(obj),
+            2, TRUE,
+            64, list.all(obj),
+            #VALUE!
+))"
+
+
+,,,,def _any(items)
+,,,,"=LAMBDA(obj,
+        SWITCH(TYPE(obj),
+            2, str.any(obj),
+            64, list.any(obj),
+            #VALUE!
+))"
+,obj,_any(obj)
+,,False
+,{0;0},True
+
+
+,,,,def _ascii(obj)
+
+
+,,,,def _bin(i)
+
+
+,,,,def _bool(obj)
+,,,,"=LAMBDA(obj,
+        SWITCH(TYPE(obj),
+            1, IF(obj, TRUE),
+            2, str.bool(obj),
+            4, obj,
+            #VALUE!
+))"
+,obj,_bool(obj)
+,False,False
+,True,True
+,-1.23,True
+,0,False
+,1.23,True
+,,False
+,.,True
+
+,=SEQUENCE(0)
+,#VALUE!,,,# Excel raises CalcError to block lists of zero items
+
+,={0}
+,0,False,,# Excel collapses lists of one item
+
+,={0;0}
+,0,#VALUE!,,# Bool of lists of >= 2 items would be always True
+,0
+
+
+
+,,,,def _chr(int)
+,,,,int.chr
+
+,,,,def _enumerate(items)
+
+,,,,def _eval(chars)
+
+,,,,"def _filter(func, items)"
+
+,,,,def _float(obj)
+,,,,str.float
+
+,,,,def _format(obj)
+
+,,,,def _int(obj)
+,,,,"=LAMBDA(obj,
+        SWITCH(TYPE(obj),
+            2, str.int(obj),
+            INT(obj)
+))"
+
+,,,,def _hex(i)
+
+,,,,def _int(obj)
+
+,,,,def _len(obj)
+
+,,,,def _list(items)
+
+,,,,def _map(items)
+
+,,,,def _max(items)
+
+,,,,def _min(items)
+
+,,,,def _oct(i)
+
+,,,,def _ord(chars)
+
+,,,,def _range(stop)
+,,,,"def _range_stop(start, stop)"
+,,,,"def _range_step(start, stop, step)"
+
+,,,,def _repr(obj)
+,,,,"=LAMBDA(obj,
+        SWITCH(TYPE(obj),
+            2, str.repr(obj),
+            4, bool.repr(obj),
+            64, list.repr(obj),
+            """" & obj
+))"
+,obj,_repr(obj)
+
+,False,False
+,-1.23,-1.23
+,9,9,,"# int.repr(9) is '9', whereas float.repr(9) is '9.0'"
+,"""","'\""'"
+,abc,'abc'
+,ab'cd,'ab\'cd'
+,⌃⌥⇧⌘⎋⇥⋮,'⌃⌥⇧⌘⎋⇥⋮'
+
+,SEQUENCE(3)
+,1,"[1, 2, 3]"
+,2
+,3
+,,,,def _reversed(obj)
+,,,,=LAMBDA items or chars
+
+,,,,def _set(obj)
+,,,,=sort uniq of items or chars
+
+,,,,def _sorted(obj)
+,,,,=LAMBDA items or chars
+
+,,,,def _str(obj)
+,,,,"=LAMBDA(obj,
+        SWITCH(TYPE(obj),
+            2, bool.str(obj),
+            64, list.str(obj),
+            """"&obj
+))"
+
+,,,,def _zip(lists)

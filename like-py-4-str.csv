@@ -1,0 +1,249 @@
+
+
+,Str
+
+,for when you have one Str of Chars
+,"but you want Bool, Int, Float, List, or more Str's of Chars"
+
+
+
+,,,,def str.any(chars)
+,chars,str.bool(chars),,"=LAMBDA(chars, IF(LEN(chars), TRUE))"
+,,False,,# Excel renders Empty Str same as Empty Cell
+,@,True,,# same code for:  def str.bool/ any
+
+
+,,,,def str.bool(chars)
+,chars,str.bool(chars),,"=LAMBDA(chars, IF(LEN(chars), TRUE))"
+,,False,,# Excel renders Empty Str same as Empty Cell
+,@,True
+
+
+,,,,"def str.endswith(chars, suffix)"
+,"chars, suffix","str.endswith(
+chars, suffix
+)",,"=LAMBDA(chars, suffix,
+    IF(LEN(suffix) <= LEN(chars),
+        MID(chars, LEN(chars) - LEN(suffix) + 1, LEN(suffix)) = suffix,
+        FALSE))"
+
+,http://ieee.org,True,,"# does end with "".org"""
+,.org
+
+,http://ieee.org,False,,"# does Not end with "".com"""
+,.com
+
+,http://ieee.org,True,,# everything ends with empty
+,,,,# Excel renders Empty Str same as Empty Cell
+
+,,True,,# empty ends with empty
+,,,,# Excel renders Empty Str same as Empty Cell
+
+
+,,,,def str.eval(chars)
+,chars,str.eval(chars),,"=LAMBDA(chars,
+    LET(
+        body, MID(chars, 2, LEN(chars) - 2),
+        stops, SEQUENCE(MAX(1, LEN(body))),
+        picks, MID(body, stops, 1),
+        pairs, MID(body, stops, 2),
+        cuts, IF(picks = ""\"", """", picks),
+        patches, IF(pairs = ""\\"", ""\"", cuts),
+        ignore_empty, TRUE,
+        joined, TEXTJOIN("""", ignore_empty, patches),
+        joined
+))(""'abc\\def\""""ghi\'kjl'"")"
+,,,,# Python Eval pretty much undoes Python Repr
+,'',,,# Excel renders Empty Str same as Empty Cell
+,'abc',abc
+,'ab\\cd',ab\cd
+,'ab\'cd',ab'cd
+,"'ab\""cd'","ab""cd"
+,'⌃⌥⇧⌘⎋⇥⋮',⌃⌥⇧⌘⎋⇥⋮
+
+,"""ab'cd""",ab'cd,,# Python Eval interprets some Str never returned by Python Repr
+
+,abcdef,bcde,,# TODO: require starts and ends with same quote mark
+,a,#VALUE!,,# we raise ValueError to reject < 2 chars
+
+
+,,,,def str.int(chars)
+,chars,str.int(chars),,"=LAMBDA(chars,
+    IFS(
+        LEN(chars) = 0,
+            #NUM!,
+        LEFT(chars, 1) = ""+"",
+            DECIMAL(MID(chars, 2, LEN(chars)), 10),
+        LEFT(chars, 1) = ""-"",
+            -DECIMAL(MID(chars, 2, LEN(chars)), 10),
+        TRUE,
+            DECIMAL(chars, 10)
+))"
+
+,0,0,0
+,123,123,123
+,-123,-123,-123
+,+123,123,123
+
+,1.00,#NUM!,,# Excel DECIMAL raises NumError to reject decimal points
+,1e0,#NUM!,,# Excel DECIMAL raises NumError to reject exponents
+,,#NUM!,,# Excel DECIMAL raises NumError to reject empty String
+,,,,# Excel VALUE accepts decimal points and exponents to make Floats
+,,,,# Excel VALUE raises ValueError to reject empty String
+,,,,# Excel renders Empty Str same as Empty Cell
+
+
+,,,,def str.int_base_0(chars)
+,,,,switch on basehint past + -: 0b 0o 0x else str.int
+
+
+,,,,def str.int_base_2(chars)
+,,,,"=LAMBDA(chars,
+    LET(
+        head, LEFT(chars, 1),
+        signed, OR(head = ""-"", head = ""+""),
+        unsigned, RIGHT(chars, LEN(chars) - 1),
+        tail, IF(signed, unsigned, chars),
+        based, LEFT(tail, 2) = ""0b"",
+        unbased, RIGHT(tail, LEN(tail) - 2),
+        digits, IF(based, unbased, tail),
+        sign, IF(head = ""-"", -1, 1),
+        base, IF(head = """", 0, 2),
+        evalled, sign * DECIMAL(digits, base),
+        evalled
+))"
+
+,chars,str.int_base_2(chars)
+
+,0,0
+,1111,15
+
+,0b1111,15,,# We accept many corners rejected by Excel BIN2DEC
+,-1111,-15
+,+1111,15
+,-0B1111,-15
+
+,"=""0b10""&""0000""&""0000"""
+,0b1000000000,512,,"# Excel DECIMAL 2 doesn't choke above 511, whereas Excel DEC2BIN does"
+
+,1.111,#NUM!,,# Excel DECIMAL raises NumError to reject the Floats which aren't Ints
+,,#NUM!,,# Excel renders Empty Str same as Empty Cell
+
+
+,,,,def str.int_base_8(chars)
+,,,,# TODO: _8 a la _2
+
+,,,,def str.int_base_16(chars)
+,,,,# TODO: _16 a la _2
+
+,,,,"def str.int_base_base(chars, base)"
+,,,,# TODO: _base a la base 10 at str.int but for choice of base
+
+,# TODO,,,"def str.int_base(chars, base)"
+,,,,"=LAMBDA(chars, base,
+    SWITCH(base,
+        0, str.int_base_0(chars),
+        2, str.int_base_2(chars),
+        8, str.int_base_8(chars),
+        16, str.int_base_16(chars),
+        str.int_base_base(chars, base),
+))"
+
+
+,# TODO,,,def str.list(chars)
+,,,,"=LAMBDA(chars, MID(1, SEQUENCE(LEN(chars)), 1))"
+
+
+,,,,def str.ord(chars)
+,,,,"=LAMBDA(chars, UNICODE(chars))"
+,ch,chr.int(ch)
+
+,A,65
+,⌘,8984
+
+,ab,97
+
+
+,# TODO,,,"def str.join(sep, items)"
+
+
+,,,,"def str.partition(chars, sep)"
+,,,,"=LAMBDA(chars, sep,
+    LET(
+        stops, SEQUENCE(MAX(1, LEN(chars))),
+        picks, MID(chars, stops, LEN(sep)),
+        exact, 0,
+        last, XMATCH(TRUE, picks = sep, exact),
+        CHOOSE(
+            {1;2;3},
+            IFERROR(MID(chars, 1, last - 1), chars),
+            IFERROR(MID(chars, last, LEN(sep)), """"),
+            IFERROR(MID(chars, last + LEN(sep), LEN(chars)), """")
+)))"
+
+,"=str.partition(""C:\My Documents\like-py.xlsx"", ""\"")"
+
+,C:
+,\
+,My Documents\like-py.xlsx
+
+
+,,,,def str.repr(chars)
+,,,,"=LAMBDA(chars,
+    LET(
+        stops, SEQUENCE(MAX(1, LEN(chars))),
+        picks, MID(chars, stops, 1),
+        slashes, IF(picks = ""\"", ""\\"", picks),
+        ticks, IF(picks = ""'"", ""\'"", slashes),
+        doubles, IF(picks = """""""", ""\"""""", ticks),
+        ignore_empty, TRUE,
+        joined, TEXTJOIN("""", ignore_empty, doubles),
+        quoted, ""'"" & joined & ""'"",
+        quoted
+))"
+,chars,str.repr(chars)
+
+,,'',,# Excel renders empty str like empty cell
+,abc,'abc'
+,ab\cd,'ab\\cd'
+,ab'cd,'ab\'cd',,"# Python ""repr"" encloses even single quotes in single quotes"
+,"ab""cd","'ab\""cd'"
+,⌃⌥⇧⌘⎋⇥⋮,'⌃⌥⇧⌘⎋⇥⋮'
+
+
+,,,,def str.reversed(chars)
+,,,,reversed chars
+
+,,,,"def str.rpartition(chars, sep)"
+,,,,"=LAMBDA(chars, sep,
+    LET(
+        stops, SEQUENCE(MAX(1, LEN(chars))),
+        picks, MID(chars, stops, LEN(sep)),
+        exact, 0,
+        reverse, -1,
+        last, XMATCH(TRUE, picks = sep, exact, reverse),
+        CHOOSE(
+            {1;2;3},
+            IFERROR(MID(chars, 1, last - 1), chars),
+            IFERROR(MID(chars, last, LEN(sep)), """"),
+            IFERROR(MID(chars, last + LEN(sep), LEN(chars)), """")
+)))"
+
+,"=str.rpartition(""C:\My Documents\like-py.xlsx"", ""\"")"
+
+,C:\My Documents
+,\
+,like-py.xlsx
+
+
+,,,,def str.set(chars)
+,,,,=sort uniq of items or chars
+
+,,,,def str.sorted(chars)
+,,,,=LAMBDA items or chars
+
+
+
+
+
+,,,,`

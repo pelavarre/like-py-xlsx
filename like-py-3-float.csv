@@ -1,0 +1,47 @@
+
+
+,Float
+
+,for when you have one F of Float
+,"but you want Str, Bit Length, Char, or List of Ints"
+,except do remember Excel lets you call Bool and Int methods on Floats
+
+
+,,,,def float.as_integer_ratio(f)
+,,,,"# TODO: here disclose precisely what float is, inside Excel"
+
+
+,,,,def float.ascii(f)
+,f,float.ascii(f),,"=LAMBDA(f, IF(f = INT(f), """" & f & "".0"", """" & f))"
+,-123,-123.0,,# same code for:  def float.ascii/ .repr/ .str
+,-1.23,-1.23,,# Excel renders Str of Float same as Float
+,-1,-1.0
+,0,0.0
+,1,1.0
+,1.23,1.23
+,123,123.0
+
+
+,,,,def float.bool(f)
+,f,float.bool(f),,"=LAMBDA(f, IF(f, TRUE))"
+,-1.23,True
+,0,False
+,1.23,True
+
+
+,,,,def float.int(f)
+,f,float.int(f),,"=LAMBDA(f, TRUNC(f))"
+,-1.23,-1,,"# Python ""int"" is Excel TRUNC"
+,0,0,,"# Excel INT is Python ""math.floor"""
+,1.23,1
+
+
+,,,,def float.repr(f)
+,f,_repr(float.repr(f)),,"=LAMBDA(f, IF(f = INT(f), """" & f & "".0"", """" & f))"
+,-12,'-12.0'
+
+
+,,,,def float.str(f)
+,,,,"=LAMBDA(f, IF(f = INT(f), """" & f & "".0"", """" & f))"
+,f,float.str(f)
+,-34,-34.0
