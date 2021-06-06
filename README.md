@@ -83,11 +83,11 @@ As you glance through our source, you'll see we made a point of translating each
 
 Got some other piece of Python you like?
 
+Tell us about it, like come find me at https://twitter.com/pelavarre
+
 ## 7 Please help us
 
 These are our early days, not much here yet - If you look for something difficult, you won't find here - If you surprise this code with new test cases, it will betray you today
-
-Please consider tweeting the bugs you find & the features you want, come find me at https://twitter.com/pelavarre
 
 Do you love our "like-py.xlsx" like you love pie?
 
