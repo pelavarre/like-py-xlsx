@@ -59,7 +59,7 @@ But now Excel offers you a workaround - Excel lets you give your own meaningful 
                 MID(chars, LEN(chars) + 1 + index, 1),
                 MID(chars, index, 1)))
 
-    =str.char("Hello Xlsx Like Py", -2)
+    =str.item("Hello Xlsx Like Py", -2)
     P
 
 ## 5 As smooth as Python
