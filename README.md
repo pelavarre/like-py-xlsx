@@ -31,28 +31,28 @@ Like you can mention a string just once, and keep working with it - You don't ha
     =MID("Hello Xlsx Like Py", LEN("Hello Xlsx Like Py") + 1 +  -2,   1)
     P
 
-    =LET( chars,"Hello Xlsx Like Py", index,-2, MID(chars, LEN(chars) + 1 + index, 1) )
+    =LET(chars,"Hello Xlsx Like Py", index,-2, MID(chars, LEN(chars) + 1 + index, 1))
     P
 
 ## 3 Speak code before values
 
 The "=LAMBDA(" stuff lets you show us your code as itself - abstract, precise, & complete - puts an end to Excel shoving on you to begin by giving the code concrete, specific, values to work with
 
-    =LAMBDA( chars, index, MID(chars, LEN(chars) + 1 + index, 1) )( "Hello Xlsx Like Py", -2 )
+    =LAMBDA(chars, index, MID(chars, LEN(chars) + 1 + index, 1))("Hello Xlsx Like Py", -2)
     P
 
 ## 4 Name your own code
 
 Fair enough, if you do call out just the code without giving it specific values to work with, then even today's Excel will still rudely stop you cold, shouting a CalcError at you
 
-    =LAMBDA( chars, index, MID(chars, LEN(chars) + 1 + index, 1) )
+    =LAMBDA(chars, index, MID(chars, LEN(chars) + 1 + index, 1))
     `  #CALC!
 
 But now Excel offers you a workaround - Excel lets you give your own meaningful short name to a large pile of code, so you don't have to type your code all out over again, as often you need your code to come work with you again
 
     Excel > Tab Formulas > Define Name
     
-    Enter a name for the data range:  str.char
+    Enter a name for the data range:  str.item
     Select the range of cells:
         =LAMBDA(chars, index,
             IF(index < 0,
