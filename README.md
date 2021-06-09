@@ -28,7 +28,7 @@ The "=LET(" Function in Excel lets you give your own meaningful short names to l
 
 Like you can mention a string just once, and keep working with it - You don't have to type it all out over again, as often as you need it
 
-    =MID("Hello Xlsx Like Py", LEN("Hello Xlsx Like Py") + 1 +  -2,   1)
+    =MID("Hello Xlsx Like Py", LEN("Hello Xlsx Like Py") + 1 + -2, 1)
     P
 
     =LET(chars,"Hello Xlsx Like Py", index,-2, MID(chars, LEN(chars) + 1 + index, 1))
@@ -66,7 +66,7 @@ But now Excel offers you a workaround - Excel lets you give your own meaningful 
 
 Let's get moving?
 
-We can crowd-source translations of the Python libraries for working with chars, ints, floats, strings, and so on and on
+We can crowd-source translations of the Python libraries for working with bools, chars, ints, floats, strings, lists, dicts, and so on and on
 
 We can drop copies of these Define Name Lambda Let things into a small Xlsx, download and go
 
