@@ -52,15 +52,23 @@ But now Excel offers you a workaround - Excel lets you give your own meaningful 
 
     Excel > Tab Formulas > Define Name
     
-    Enter a name for the data range:  str.item
+    Enter a name for the data range:
+
+        str.item
+
     Select the range of cells:
+
         =LAMBDA(chars, index,
             IF(index < 0,
                 MID(chars, LEN(chars) + 1 + index, 1),
                 MID(chars, index, 1)))
 
+Now it works
+
     =str.item("Hello Xlsx Like Py", -2)
     P
+
+Beware the placement of spaces: like if you put spaces into the Range Of Cells before the "=LAMBDA" piece, then Excel will give you a vague #REF! error, which in this situation means to say please drop the leading spaces
 
 ## 5 As smooth as Python
 
