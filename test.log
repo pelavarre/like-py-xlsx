@@ -1,0 +1,33 @@
+% pips
+INSTALLING pips
+zsh: exit 1
+(PIPS) %
+(PIPS) % pip freeze|grep -E 'openpyxl|pandas'
+openpyxl==3.0.7
+pandas==1.2.5
+(PIPS) %
+(PIPS) % ./xlslisp.py -f like-py.xlsx
+xlslisp: reading:  like-py.xlsx
+xlslisp: as if its sheets are ['0 Welcome', '1 Bool', '2 Int', '3 Float', '4 Str', '5 List', '6 Object', '7 Keystrokes', '8 Etc', '9 Scraps']
+xlslisp: reading sheet 0 Welcome
+xlslisp: reading sheet 1 Bool
+xlslisp: reading sheet 2 Int
+xlslisp: reading sheet 3 Float
+xlslisp: reading sheet 4 Str
+xlslisp: reading sheet 5 List
+xlslisp: reading sheet 6 Object
+xlslisp: reading sheet 7 Keystrokes
+xlslisp: reading sheet 8 Etc
+xlslisp: reading sheet 9 Scraps
+xlslisp: writing file like-py-0-welcome.csv
+xlslisp: writing file like-py-1-bool.csv
+xlslisp: writing file like-py-2-int.csv
+xlslisp: writing file like-py-3-float.csv
+xlslisp: writing file like-py-4-str.csv
+xlslisp: writing file like-py-5-list.csv
+xlslisp: writing file like-py-6-object.csv
+xlslisp: writing file like-py-7-keystrokes.csv
+xlslisp: writing file like-py-8-etc.csv
+xlslisp: writing file like-py-9-scraps.csv
+xlslisp: elapsed time of 0:00:00.633812 since 2021-06-26 16:54:14.042297
+(PIPS) %

@@ -1,0 +1,36 @@
+,,,,
+,Bool,,,
+,,,,
+,for when you have one Bit of Bool,,,
+,"but you want Str, Float, or Int",,,
+,except do remember Excel lets you call Int and Float methods on Bools,,,
+,,,,
+,,,,
+,,,,def bool.ascii(bit)
+,bit,bool.ascii(bit),,"=LAMBDA(bit, IF(bit, ""'True'"", ""'False'""))"
+,False,False,,# same code for:  def bool.ascii/ .repr/ .str
+,True,True,,# Excel renders Titlecase Str differently than Uppercase Bool
+,,,,
+,,,,
+,,,,def bool.float(bit)
+,bit,bool.float(bit),,"=LAMBDA(bit, INT(bit))"
+,False,0,,# same code for:  def bool.float/ .int
+,True,1,,
+,,,,
+,,,,
+,,,,def bool.int(bit)
+,bit,bool.int(bit),,"=LAMBDA(bit, INT(bit))"
+,False,0,,
+,True,1,,
+,,,,
+,,,,
+,,,,def bool.repr(bit)
+,bit,_repr(bool.repr(bit)),,"=LAMBDA(bit, IF(bit, ""True"", ""False""))"
+,False,'False',,
+,True,'True',,
+,,,,
+,,,,
+,,,,def bool.str(bit)
+,bit,bool.str(bit),,"=LAMBDA(bit, IF(bit, ""True"", ""False""))"
+,False,False,,
+,True,True,,
