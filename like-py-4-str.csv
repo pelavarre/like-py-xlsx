@@ -1,6 +1,8 @@
 
-,for when you have one str of chars
-,"but you want Bool, Int, Float, List, or other Str's of Chars"
+,Str
+
+,for when you have one Str of Chars
+,"but you want Bool, Int, Float, List, or more Str's of Chars"
 
 
 

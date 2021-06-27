@@ -93,6 +93,7 @@ def main():
                 cells = list()
                 len_cells = 0
 
+                flawed_row = None
                 for df_cell in df.loc[row_index]:
                     if cell_bool(df_cell):
                         cells.append(df_cell)
@@ -100,7 +101,16 @@ def main():
                     else:
                         cells.append("")  # hide empty cells as if empty strings
 
+                    # Warn of trailing spaces
+
+                    if str(cells[-1]).endswith(" "):
+                        flawed_row = True
+
                 cells = cells[:len_cells]  # drop trailing empty cells
+                if flawed_row:
+                    stderr_print(
+                        "xlslisp: warning: could rstrip cells at: {}".format(cells)
+                    )
 
                 csv_writer.writerow(cells)
 

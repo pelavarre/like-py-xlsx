@@ -1,7 +1,7 @@
 
 ,Float
 
-,"for when you have one Float named ""f"""
+,for when you have one F of Float
 ,"but you want Str, Bit Length, Char, or List of Ints"
 ,except do remember Excel lets you call Bool and Int methods on Floats
 

@@ -1,8 +1,8 @@
 
-,for when you got
+,List
 
-,one list
-,of numbered items
+,for when you have one List of Item's
+,"but you want Bool, Int, Str, or more List's of Item's"
 
 
 ,,,,def list.all(items)
@@ -96,6 +96,10 @@ items)",,"=LAMBDA(func, items,
 ,bca
 ,cab
 ,cba
+
+
+,,,,def list.len(items)
+,,,,# TODO: implement list.len
 
 
 ,,,,def list.repr(items)

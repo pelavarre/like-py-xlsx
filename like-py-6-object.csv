@@ -1,13 +1,9 @@
 
-,for when you got
+,Object
 
-,one object obj
-
-,may be
-,"bool,"
-,"or float,"
-,"or str of chars,"
-,or list of numbered items
+,for when you have one Object
+,"tagged by some Excel Type Code such as 4 Bool, 1 Int or Float, 16 Exception, 64 List, or 2 Str"
+,"(and probably not tagged by the poorly doc'ed Excel Type Codes of 0, 8, 32, and 128)"
 
 
 ,,,,def _abs(f)

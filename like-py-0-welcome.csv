@@ -43,7 +43,7 @@
 
 ,,"1.4 Me personally,"
 
-,,,"I launched ""pelavarre/like-py-xlsx"" back when they sold me "
+,,,"I launched ""pelavarre/like-py-xlsx"" back when they sold me"
 ,,,"Microsoft Excel for Mac, Version ""16.51 (21062020)"""
 
 
@@ -57,17 +57,17 @@
 
 ,,,,"=LEFT(
     ""Hello Xlsx Like Py"",
-    FIND("" "", ""Hello Xlsx Like Py"")
+    FIND("" "", ""Hello Xlsx Like Py"") - 1
 )"
-,,,,Hello 
+,,,,Hello
 
 ,,,,"=LET(
     chars, ""Hello Xlsx Like Py"",
     LEFT(
         chars,
-        FIND("" "", chars))
+        FIND("" "", chars) - 1)
 )"
-,,,,Hello 
+,,,,Hello
 
 
 ,## 3 Speak code before values ##
@@ -79,9 +79,9 @@
 ,,,,"=LAMBDA(chars,
     LEFT(
         chars,
-        FIND("" "", chars))
+        FIND("" "", chars) - 1)
 )(""Hello Xlsx Like Py"")"
-,,,,Hello 
+,,,,Hello
 
 
 ,## 4 Name your own code  #
@@ -92,7 +92,7 @@
 ,,,,"=LAMBDA(chars,
     LEFT(
         chars,
-        FIND("" "", chars))
+        FIND("" "", chars) - 1)
 )"
 
 
@@ -110,13 +110,13 @@
 ,,,Select the range of cells:
 
 ,,,,"=LAMBDA(chars,
-    LEFT(chars,FIND("" "",chars))
+    LEFT(chars, FIND("" "",chars) - 1)
 )"
 
 ,,You can name it and you can call it by name
 
-,,,,"=str.word(""Hello Xlsx Like Py"")"
-,,,,Hello 
+,,,,"= ""'"" & str.word(""Hello Xlsx Like Py"") & ""'"""
+,,,,'Hello'
 
 ,,Beware the placement of spaces
 

@@ -1,7 +1,7 @@
 
 ,Int
 
-,"for when you have one Int named ""i"""
+,for when you have one I of Int
 ,"but you want Str, Bit Length, Bool, Char, or List of Ints"
 ,except do remember Excel lets you call Bool and Float methods on Ints
 
