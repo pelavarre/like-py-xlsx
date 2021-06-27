@@ -78,7 +78,7 @@ def main():
 
         sys.exit(1)
 
-    # Export as Csv
+    # Visit each Sheet
 
     for (index, sheetname) in enumerate(sheet_by_name_keys_list):
         sheet = sheet_by_name[sheetname]
@@ -87,16 +87,13 @@ def main():
             space=space, dashed_sheet=sheetname.replace(" ", "-")
         ).lower()
 
-        # Format as Txt
+        # Collect Rows of String Values
 
-        charstream = io.StringIO()
-
-        csv_writer = csv.writer(charstream)
+        csv_ragged_rows = list()
         for row_index in range(sheet.max_row):
             row_mark = 1 + row_index
 
             csv_cells = list()
-            len_csv_cells = 0
 
             for col_index in range(sheet.max_column):
                 cell = sheet.cell(1 + row_index, 1 + col_index)
@@ -108,8 +105,6 @@ def main():
                         pdb.set_trace()
 
                 csv_cells.append(cell.value)
-                if cell.value is not None:
-                    len_csv_cells = len(csv_cells)
 
                 # Warn of trailing spaces
 
@@ -121,21 +116,31 @@ def main():
                         )
                     )
 
-            csv_cells = csv_cells[:len_csv_cells]  # drop trailing empty csv_cells
+            csv_ragged_rows.append(csv_cells)
 
+        # Format as rectangular Csv to please GitHub
+        #
+        # per GitHub > Rendering CSV and TSV data
+        # flagging ragged as "we can make this file beautiful and searchable"
+        #
+
+        csv_rows = rows_complete(csv_ragged_rows, cell=None)
+
+        charstream = io.StringIO()
+        csv_writer = csv.writer(charstream)
+        for csv_cells in csv_rows:
             csv_writer.writerow(csv_cells)
-
-        # Strip the mix of "\r\n" and "\n" line-ending's
-        # such as "\n" line-ending's inside multi-line cells
 
         charstream.seek(0)
         csv_chars = charstream.read()
-        csv_lines = csv_chars.splitlines()
 
         # Write the lines with local "os.linesep" line-ending's
-        # but without rstrip'ping the lines  # TODO: poor choice?
+        # specifically Not the mix of "\r\n" and "\n" from multi-line Excel cells
+        # but without rstrip'ping the lines  # TODO: poor choice to skip rstrip?
 
+        csv_lines = csv_chars.splitlines()
         csv_joined = "\n".join(csv_lines) + "\n"
+
         stderr_print(
             "xlslisp: writing {} chars of {} rows to:  {}".format(
                 len(csv_joined), sheet.max_row, csv_name
@@ -230,6 +235,23 @@ def exit_unless_main_doc_eq(parser):
         stderr_print("\n".join(lines))
 
         sys.exit(1)
+
+
+# deffed in many files  # missing from docs.python.org
+
+
+def rows_complete(rows, cell):
+    """Add cells to make every row as wide as the widest row"""
+
+    completed_rows = list()
+    if rows:
+        max_row_width = max(len(_) for _ in rows)
+
+        for row in rows:
+            completed_row = row + ((max_row_width - len(row)) * [cell])
+            completed_rows.append(completed_row)
+
+    return completed_rows
 
 
 # deffed in many files  # missing from docs.python.org

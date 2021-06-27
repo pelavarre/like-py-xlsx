@@ -1,29 +1,29 @@
-
-
-,Mac
-,Keyboard
+,,
+,,
+,Mac,
+,Keyboard,
 ,Shortcuts,Meaning
-
-
+,,
+,,
 ,⌃  Return,Run cell and do Not step away from it
 ,⌃ ⌥  Return,Insert line break
-
+,,
 ,⌘ ↑,Move cursor to home left of line
 ,⌘ ↓,Move cursor to right end of line
 ,⇧ ⌘ ↑,Extend selection to home left of line
 ,⇧ ⌘ ↓,Extend selection to right end of line
-
+,,
 ,⇧ Space,Select row
 ,⌃ Space,Select column
-
+,,
 ,⌘ +,Insert selection
 ,⌘ -,Delete selection
-
+,,
 ,⌃ U,Reopen formula (aka F2)
 ,fx,Open Formula Builder
 ,⌃ `,Toggle Formula > Show Formulas
-
+,,
 ,⌥ →,Next Sheet
 ,⌥ ←,Previous Sheet
-
+,,
 ,⌃ ⌘ Space,macOS Character Viewer Favorites
