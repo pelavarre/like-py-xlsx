@@ -1,6 +1,6 @@
 # like-py-xlsx
 
-TL;DR: Call for Python from inside Msft Beta Channel Office 365 Excel - Small Quick Xlsx Download - All Source No Binary
+TL;DR: Call Python from inside Msft Beta Channel Office 365 Excel - Small Quick Xlsx Download - All Source No Binary
 
 Contents
 
@@ -18,9 +18,11 @@ Lisp in Excel is a thing
 
 **1.1 Microsoft added a Lisp into Excel**, since late 2020 at Beta Channel Office 365 Excel
 
-**1.2 Your Excel already has this Lisp in it**, if typing "=LET(" or "=LAMBDA(" into a cell of your Excel triggers it to help you insert those functions, or if clicking through the "fx" button at the left of the Excel Formula Bar opens up the Formula Builder pane on the far right with a Search that finds the LAMBDA and LET functions explained (poorly) inside
+**1.2 Your Excel already has this Lisp in it**, if typing **"=LET(" or "=LAMBDA("** into a cell of your Excel triggers it to help you insert those functions, or if clicking through **the "fx" button** at the left of the Excel Formula Bar opens up the Formula Builder pane on the far right with a Search that finds the LAMBDA and LET functions explained poorly inside
 
-**1.3 Your friends get this Lisp bundled inside their Excel too if** they pay often for an Office 365 Subscription and click through Help > Check For Updates to launch the Microsoft AutoUpdate app, and then switch focus to that app, and then click through Advanced > Update Channel = Beta Channel, and then take enough updates - Me, I launched "pelavarre/like-py-xlsx" when they sold me Microsoft Excel for Mac, Version "16.51 (21062020)"
+**1.3 Your friends have got this Lisp bundled inside their Excel too**, if they pay often for **an Office 365 Subscription** and click through **Help > Check For Updates** to launch the Microsoft AutoUpdate app, and then switch focus to that app, and then click through **Advanced > Update Channel = Beta Channel**, and then take enough updates
+
+**1.4 Me personally**, I launched "pelavarre/like-py-xlsx" back when they sold me Microsoft Excel for Mac, Version "16.51 (21062020)"
 
 ## 2 Give short names to large values
 
@@ -28,18 +30,34 @@ The "=LET(" Function in Excel lets you give your own meaningful short names to l
 
 Like you can mention a string just once, and keep working with it - You don't have to type it all out over again, as often as you need it
 
-    =MID("Hello Xlsx Like Py", LEN("Hello Xlsx Like Py") + 1 + -2, 1)
-    P
+    =LEFT(
+        "Hello Xlsx Like Py",
+        FIND(" ", "Hello Xlsx Like Py")
+    )
+    Hello
 
-    =LET(chars,"Hello Xlsx Like Py", index,-2, MID(chars, LEN(chars) + 1 + index, 1))
-    P
+    =LET(
+        chars, "Hello Xlsx Like Py",
+        LEFT(
+            chars,
+            FIND(" ", chars))
+        )
+    Hello
 
 ## 3 Speak code before values
 
-The "=LAMBDA(" stuff lets you show us your code as itself - abstract, precise, & complete - puts an end to Excel shoving on you to begin by giving the code concrete, specific, values to work with
+The "=LAMBDA(" Function in Excel lets you show us your code as itself: abstract, precise, & complete
 
-    =LAMBDA(chars, index, MID(chars, LEN(chars) + 1 + index, 1))("Hello Xlsx Like Py", -2)
-    P
+You can begin your work by writing and reading the code
+
+You can wait to give the code concrete, specific, values to work till after you write the code
+
+    =LAMBDA(chars,
+        LEFT(
+            chars,
+            FIND(" ", chars))
+    )("Hello Xlsx Like Py")
+    Hello
 
 ## 4 Name your own code
 
@@ -48,27 +66,26 @@ Fair enough, if you do call out just the code without giving it specific values 
     =LAMBDA(chars, index, MID(chars, LEN(chars) + 1 + index, 1))
     `  #CALC!
 
-But now Excel offers you a workaround - Excel lets you give your own meaningful short name to a large pile of code, so you don't have to type your code all out over again, as often you need your code to come work with you again
+What's new is now Excel offers you a workaround - Excel lets you give your own meaningful short name to a large pile of code - You no longer have to type your code all out over again, as often you need your own code to come work with you again
 
     Excel > Tab Formulas > Define Name
     
     Enter a name for the data range:
 
-        str.item
+        str.word
 
     Select the range of cells:
 
-        =LAMBDA(chars, index,
-            IF(index < 0,
-                MID(chars, LEN(chars) + 1 + index, 1),
-                MID(chars, index, 1)))
+        =LAMBDA(chars,
+             LEFT(chars,FIND("" "",chars))
+        )
 
-Now it works
+You can name it and you can call it by name
 
-    =str.item("Hello Xlsx Like Py", -2)
-    P
+    =str.word("Hello Xlsx Like Py")
+    Hello
 
-Beware the placement of spaces: like if you put spaces into the Range Of Cells before the "=LAMBDA" piece, then Excel will give you a vague #REF! error, which in this situation means to say please drop the leading spaces
+Beware the placement of spaces - Like if you put spaces into the Range Of Cells before the "=LAMBDA" piece, then Excel will give you a vague #REF! error, which in this situation means to say please drop the leading spaces
 
 ## 5 As smooth as Python
 
@@ -76,7 +93,7 @@ Let's get moving?
 
 We can crowd-source translations of the Python libraries for working with bools, chars, ints, floats, strings, lists, dicts, and so on and on
 
-We can drop copies of these Define Name Lambda Let things into a small Xlsx, download and go
+We can drop copies of these Define Name Lambda Let things into a small Xlsx, download and go (or has Microsoft even opened up web spaces somewhere, as welcoming as Google Sheets?)
 
 You can start with a copy of our small Xlsx, add what else you please, and all along the way think in Python but write in Excel
 
@@ -87,13 +104,13 @@ For instance, we make it dead easy for you to split apart the Microsoft Windows 
 
 ## 6 As light as 1 function
 
-As you glance through our source, you'll see we made a point of translating each Python function completely - We translated all the way to Excel from Python, we didn't translate from Python to just a mix of Python and Excel - So you can copy out single functions when you need them, you don't have to copy all or nothing
+As you glance through our Excel Lisp source here, you'll see we made a point of translating each Python function completely - We translated all the way to Excel from Python - We didn't translate from Python to just a mix of Python and Excel - You can copy out single functions when you need them - You don't have to copy all or nothing
+
+## 7 Please help us
 
 Got some other piece of Python you like?
 
 Tell us about it, like come find me at https://twitter.com/pelavarre
-
-## 7 Please help us
 
 These are our early days, not much here yet - If you look for something difficult, you won't find here - If you surprise this code with new test cases, it will betray you today
 
@@ -103,6 +120,6 @@ Please tell a friend
 
 ## 8 Contributors
 
-Thanks to my friends encouraging me to share our "like-py.xlsx" with you
+Thanks to my friends for encouraging me to share our "like-py.xlsx" with you
 
-Thanks to Charlotte Sands "Nothing's Even Wrong" 2021 for speaking the lyric line "do you love me like that", such that I misheard the line as "do you love me like Pie?", which is a line I like lots : -)
+Thanks to Charlotte Sands "Nothing's Even Wrong" 2021 for speaking the lyric line "do you love me like that", such that I misheard this line as "do you love me like Pie?", which is a line I like lots : -)
