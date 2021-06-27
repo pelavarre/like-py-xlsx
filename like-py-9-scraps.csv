@@ -1,4 +1,7 @@
 
+
+,Collect Trash
+
 ,,,,def bool.as_integer_ratio(bit)
 ,,,,"=LAMBDA(bit, IF(bit, {1;1}, {0;1}))"
 
@@ -20,8 +23,8 @@
 
 
 ,,,"=LAMBDA(I, INT(IF(i, LOG(ABS(i), 2) + 1)))"
-,False,0,0,True
-,True,1,1,True
+,0,0,0,True
+,1,1,1,True
 ,2,3,2,True
 ,3,7,3,True
 ,4,15,4,True

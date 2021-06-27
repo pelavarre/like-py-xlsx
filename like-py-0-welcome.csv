@@ -1,4 +1,5 @@
 
+
 ,GitHub Like-Py-Xlsx
 ,https://github.com/pelavarre/like-py-xlsx/
 
@@ -94,7 +95,7 @@
         chars,
         FIND("" "", chars) - 1)
 )"
-
+,,,,#VALUE!
 
 ,,What's new is now Excel offers you a workaround
 ,,Excel lets you give your own meaningful short name to a large pile of code
@@ -102,7 +103,7 @@
 ,,"as often you need your own code to come work with you again,"
 
 ,,,Excel > Tab Formulas > Define Name
-,,    
+
 ,,,Enter a name for the data range:
 
 ,,,,str.word

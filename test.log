@@ -6,28 +6,16 @@ zsh: exit 1
 openpyxl==3.0.7
 pandas==1.2.5
 (PIPS) %
-(PIPS) % ./xlslisp.py -f like-py.xlsx
-xlslisp: reading:  like-py.xlsx
-xlslisp: as if its sheets are ['0 Welcome', '1 Bool', '2 Int', '3 Float', '4 Str', '5 List', '6 Object', '7 Keystrokes', '8 Etc', '9 Scraps']
-xlslisp: reading sheet 0 Welcome
-xlslisp: reading sheet 1 Bool
-xlslisp: reading sheet 2 Int
-xlslisp: reading sheet 3 Float
-xlslisp: reading sheet 4 Str
-xlslisp: reading sheet 5 List
-xlslisp: reading sheet 6 Object
-xlslisp: reading sheet 7 Keystrokes
-xlslisp: reading sheet 8 Etc
-xlslisp: reading sheet 9 Scraps
-xlslisp: writing 5324 chars of 164 rows to:  like-py-0-welcome.csv
-xlslisp: writing 835 chars of 36 rows to:  like-py-1-bool.csv
-xlslisp: writing 3890 chars of 164 rows to:  like-py-2-int.csv
-xlslisp: writing 1045 chars of 46 rows to:  like-py-3-float.csv
-xlslisp: writing 6225 chars of 166 rows to:  like-py-4-str.csv
-xlslisp: writing 1607 chars of 97 rows to:  like-py-5-list.csv
-xlslisp: writing 2262 chars of 124 rows to:  like-py-6-object.csv
-xlslisp: writing 302 chars of 23 rows to:  like-py-7-keystrokes.csv
-xlslisp: writing 1718 chars of 72 rows to:  like-py-8-etc.csv
-xlslisp: writing 1408 chars of 73 rows to:  like-py-9-scraps.csv
-xlslisp: elapsed time of 0:00:00.672396 since 2021-06-26 17:37:34.640470
+xlslisp: reading 10 sheets from:  like-py.xlsx
+xlslisp: writing 5365 chars of 165 rows to:  like-py-0-welcome.csv
+xlslisp: writing 836 chars of 37 rows to:  like-py-1-bool.csv
+xlslisp: writing 3940 chars of 165 rows to:  like-py-2-int.csv
+xlslisp: writing 1030 chars of 47 rows to:  like-py-3-float.csv
+xlslisp: writing 6247 chars of 169 rows to:  like-py-4-str.csv
+xlslisp: writing 1719 chars of 102 rows to:  like-py-5-list.csv
+xlslisp: writing 2370 chars of 121 rows to:  like-py-6-object.csv
+xlslisp: writing 547 chars of 29 rows to:  like-py-7-keystrokes.csv
+xlslisp: writing 1765 chars of 74 rows to:  like-py-8-etc.csv
+xlslisp: writing 1418 chars of 76 rows to:  like-py-9-scraps.csv
+xlslisp: elapsed time of 0:00:00.106729 since 2021-06-26 20:30:56.774463
 (PIPS) %

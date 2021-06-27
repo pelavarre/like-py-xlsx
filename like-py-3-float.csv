@@ -1,4 +1,5 @@
 
+
 ,Float
 
 ,for when you have one F of Float
@@ -31,8 +32,8 @@
 ,,,,def float.int(f)
 ,f,float.int(f),,"=LAMBDA(f, TRUNC(f))"
 ,-1.23,-1,,"# Python ""int"" is Excel TRUNC"
-,0,False,,"# Excel INT is Python ""math.floor"""
-,1.23,True
+,0,0,,"# Excel INT is Python ""math.floor"""
+,1.23,1
 
 
 ,,,,def float.repr(f)

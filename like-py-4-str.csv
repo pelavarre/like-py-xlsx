@@ -1,4 +1,5 @@
 
+
 ,Str
 
 ,for when you have one Str of Chars
@@ -63,7 +64,7 @@ chars, suffix
 ,"""ab'cd""",ab'cd,,# Python Eval interprets some Str never returned by Python Repr
 
 ,abcdef,bcde,,# TODO: require starts and ends with same quote mark
-,a,,,# we raise ValueError to reject < 2 chars
+,a,#VALUE!,,# we raise ValueError to reject < 2 chars
 
 
 ,,,,def str.int(chars)
@@ -79,14 +80,14 @@ chars, suffix
             DECIMAL(chars, 10)
 ))"
 
-,0,False,0.0
-,123,123,123.0
-,-123,-123,-123.0
-,+123,123,123.0
+,0,0,0
+,123,123,123
+,-123,-123,-123
+,+123,123,123
 
-,1.00,,,# Excel DECIMAL raises NumError to reject decimal points
-,1e0,,,# Excel DECIMAL raises NumError to reject exponents
-,,,,# Excel DECIMAL raises NumError to reject empty String
+,1.00,#NUM!,,# Excel DECIMAL raises NumError to reject decimal points
+,1e0,#NUM!,,# Excel DECIMAL raises NumError to reject exponents
+,,#NUM!,,# Excel DECIMAL raises NumError to reject empty String
 ,,,,# Excel VALUE accepts decimal points and exponents to make Floats
 ,,,,# Excel VALUE raises ValueError to reject empty String
 ,,,,# Excel renders Empty Str same as Empty Cell
@@ -114,7 +115,7 @@ chars, suffix
 
 ,chars,str.int_base_2(chars)
 
-,0,False
+,0,0
 ,1111,15
 
 ,0b1111,15,,# We accept many corners rejected by Excel BIN2DEC
@@ -125,8 +126,8 @@ chars, suffix
 ,"=""0b10""&""0000""&""0000"""
 ,0b1000000000,512,,"# Excel DECIMAL 2 doesn't choke above 511, whereas Excel DEC2BIN does"
 
-,1.111,,,# Excel DECIMAL raises NumError to reject the Floats which aren't Ints
-,,,,# Excel renders Empty Str same as Empty Cell
+,1.111,#NUM!,,# Excel DECIMAL raises NumError to reject the Floats which aren't Ints
+,,#NUM!,,# Excel renders Empty Str same as Empty Cell
 
 
 ,,,,def str.int_base_8(chars)

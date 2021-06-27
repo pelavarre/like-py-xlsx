@@ -1,4 +1,5 @@
 
+
 ,Object
 
 ,for when you have one Object
@@ -49,20 +50,20 @@
 ,False,False
 ,True,True
 ,-1.23,True
-,False,False
+,0,False
 ,1.23,True
 ,,False
 ,.,True
 
 ,=SEQUENCE(0)
-,,,,# Excel raises CalcError to block lists of zero items
+,#VALUE!,,,# Excel raises CalcError to block lists of zero items
 
 ,={0}
-,False,False,,# Excel collapses lists of one item
+,0,False,,# Excel collapses lists of one item
 
 ,={0;0}
-,False,,,# Bool of lists of >= 2 items would be always True
-,False
+,0,#VALUE!,,# Bool of lists of >= 2 items would be always True
+,0
 
 
 
@@ -128,7 +129,7 @@
 ,⌃⌥⇧⌘⎋⇥⋮,'⌃⌥⇧⌘⎋⇥⋮'
 
 ,SEQUENCE(3)
-,True,"[1, 2, 3]"
+,1,"[1, 2, 3]"
 ,2
 ,3
 ,,,,def _reversed(obj)

@@ -1,4 +1,5 @@
 
+
 ,Int
 
 ,for when you have one I of Int
@@ -27,10 +28,10 @@
 ,-1.9,0b1111111111,,# Excel truncates Float to make Int
 ,2.9,0b10
 
-,-513,,,# Excel raises NumError to block i < -0b10_0000_0000
+,-513,#NUM!,,# Excel raises NumError to block i < -0b10_0000_0000
 ,-512,0b1000000000,,# aka 0b10_0000_0000
 ,511,0b111111111,,# aka 0b01_1111_1111
-,512,,,# Excel raises NumError to block i > +0b01_1111_1111
+,512,#NUM!,,# Excel raises NumError to block i > +0b01_1111_1111
 
 
 ,,,,def int.bit_length(i)
@@ -46,8 +47,8 @@
 
 ,,,,def int.bool(i)
 ,i,int.bool(i),,"=LAMBDA(i, IF(i, TRUE))"
-,-1,1,,# same code for def:  int.bool/ float.bool
-,0,0
+,-1,True,,# same code for def:  int.bool/ float.bool
+,0,False
 
 
 ,,,,def int.chr(i)
@@ -56,7 +57,7 @@
 ,65,A
 ,8984,⌘
 
-,0,,,# Excel raises ValueError to block working with \u0000
+,0,#VALUE!,,# Excel raises ValueError to block working with \u0000
 
 
 ,i,int.float(i),,def int.float(i)
@@ -74,10 +75,10 @@
 ,-1.9,0xFFFFFFFFFF,,# Excel truncates Float to make Int
 ,16.9,0x10
 
-,-549755813889,,,# Excel raises NumError to block i < -0x80_0000_0000
+,-549755813889,#NUM!,,# Excel raises NumError to block i < -0x80_0000_0000
 ,-549755813888,0x8000000000,,# aka 0x80_0000_0000
 ,549755813887,0x7FFFFFFFFF,,# aka 0x7F_FFFF_FFFF
-,549755813888,,,# Excel raises NumError to block i > +0x7F_FFFF_FFFF
+,549755813888,#NUM!,,# Excel raises NumError to block i > +0x7F_FFFF_FFFF
 
 
 ,,,,def int.oct(i)
@@ -90,10 +91,10 @@
 ,-1.9,0x7777777777,,# Excel truncates Float to make Int
 ,8.9,0x10
 
-,-536870913,,,# Excel raises NumError to block i < -0o4_000_000_000
+,-536870913,#NUM!,,# Excel raises NumError to block i < -0o4_000_000_000
 ,-536870912,0x4000000000,,# aka 0o4_000_000_000
 ,536870911,0x3777777777,,# aka 0o3_777_777_777
-,536870912,,,# Excel raises NumError to block i > +0o3_777_777_777
+,536870912,#NUM!,,# Excel raises NumError to block i > +0o3_777_777_777
 
 
 ,,,,def int.range(stop)
@@ -109,8 +110,8 @@
 ,,1
 
 
-,0,,,# Excel raises CalcError to reject empty lists
-,-1,,,"# We raise CalcError, where Excel raises ValueError, to reject negative lengths"
+,0,#VALUE!,,# Excel raises CalcError to reject empty lists
+,-1,#VALUE!,,"# We raise CalcError, where Excel raises ValueError, to reject negative lengths"
 
 
 ,,,,"def int.range_stop(start, stop)"

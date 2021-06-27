@@ -1,3 +1,5 @@
+
+
 ,Default Xlsx Imports
 
 ,the Excel Formula Builder divides the Functions of Excel into
@@ -33,23 +35,23 @@
 
 ,ab cd ef,2,,Text,,str
 
-,0,4,,Logical Value,,bool
+,False,4,,Logical Value,,bool
 
-,,16,1,Error Value
-,,16,2,Error Value
-,,16,3,Error Value
-,,16,4,Error Value
-,,16,5,Error Value
-,,16,6,Error Value
-,,16,7,Error Value
+,#NULL!,16,1,Error Value
+,#DIV/0!,16,2,Error Value
+,#VALUE!,16,3,Error Value
+,#REF!,16,4,Error Value
+,#NAME?,16,5,Error Value
+,#NUM!,16,6,Error Value
+,#N/A,16,7,Error Value
 ,,,8
-,,16,9,Error Value
+,#VALUE!,16,9,Error Value
 ,,,10
 ,,,11
 ,,,12
-,,16,13,Error Value
-,,16,14,Error Value
-,#UNKNOWN!,16,,Error Value
+,#VALUE!,16,13,Error Value
+,#VALUE!,16,14,Error Value
+,#UNKNOWN!,16,#N/A,Error Value
 
 ,1,64,,Array,,list or set (or tuple or frozenset) of two or more items
 ,2
@@ -58,15 +60,15 @@
 
 ,Notes on the consistencies found in the styling of Excel code near here
 
-1.0,left justify inputs
-2.0,right justify outputs
-3.0,same columns across sheets
-4.0,independent column widths
-5.0,one or more source lines per name
-6.0,end with a line of one or more closing parentheses
-7.0,test column names in same row as code
-8.0,test column names in same paragraph when just 1 paragraph of test data rows
-9.0,"yes polymorphic dispatch, but no type checking"
-10.0,sixteen row height units per source line
-11.0,don't yield to Excel cutting spaces out of Lambda argument lists
-12.0,"tag overloaded function names with last arg name (eg, ""range"" and ""range_stop"" and ""range_step"")"
+1,left justify inputs
+2,right justify outputs
+3,same columns across sheets
+4,independent column widths
+5,one or more source lines per name
+6,end with a line of one or more closing parentheses
+7,test column names in same row as code
+8,test column names in same paragraph when just 1 paragraph of test data rows
+9,"yes polymorphic dispatch, but no type checking"
+10,sixteen row height units per source line
+11,don't yield to Excel cutting spaces out of Lambda argument lists
+12,"tag overloaded function names with last arg name (eg, ""range"" and ""range_stop"" and ""range_step"")"

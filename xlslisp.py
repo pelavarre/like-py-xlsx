@@ -38,12 +38,11 @@ import difflib
 import io
 import os
 import pdb
+import string
 import sys
 
 
-import numpy
-
-import pandas as pd
+import openpyxl  # called by "pd.read_excel" for workbooks of multiple sheets
 
 
 _ = pdb
@@ -57,103 +56,99 @@ def main():
     parser = xlslisp_compile_argdoc()
     args = parser.parse_args()
 
-    # Import an Xlsx of Sheets
-    # but import it secretly wrong unless it contains the Sheets we expect
+    space = os.path.splitext(args.file)[0]
 
-    sheets = "Welcome Bool Int Float Str List Object Keystrokes Etc Scraps".split()
-    str_sheets = str(list("{} {}".format(*_) for _ in enumerate(sheets)))
+    # Import the Values of Sheets of one Xlsx File
 
-    stderr_print("xlslisp: reading:  {}".format(args.file))
-    stderr_print("xlslisp: as if its sheets are {}".format(str_sheets))
+    sheet_by_name = openpyxl.load_workbook(args.file, data_only=True)
+    sheet_by_name_keys_list = sheet_by_name.sheetnames
 
-    dfs = list()
-    for (index, sheet) in enumerate(sheets):
-        stderr_print("xlslisp: reading sheet {} {}".format(index, sheet))
-        df = pd.read_excel(args.file, sheet_name=index)
-        dfs.append(df)
+    stderr_print(
+        "xlslisp: reading {} sheets from:  {}".format(
+            len(sheet_by_name_keys_list), args.file
+        )
+    )
+
+    # Option to quit early
+
+    if not args.force:
+        stderr_print(
+            "xlslisp.py:  Xlsx imported, run again with --force to replace Csv's"
+        )
+
+        sys.exit(1)
 
     # Export as Csv
 
-    if args.force:
-        space = os.path.splitext(args.file)[0]
-        for (index, sheet) in enumerate(sheets):
-            csv_name = "{space}-{index}-{sheet}.csv".format(
-                space=space, index=index, sheet=sheet
-            )
-            csv_name = csv_name.lower()
-            df = dfs[index]
+    for (index, sheetname) in enumerate(sheet_by_name_keys_list):
+        sheet = sheet_by_name[sheetname]
 
-            # Format as Txt
+        csv_name = "{space}-{dashed_sheet}.csv".format(
+            space=space, dashed_sheet=sheetname.replace(" ", "-")
+        ).lower()
 
-            charstream = io.StringIO()
+        # Format as Txt
 
-            csv_writer = csv.writer(charstream)
-            for row_index in range(len(df)):
+        charstream = io.StringIO()
 
-                cells = list()
-                len_cells = 0
+        csv_writer = csv.writer(charstream)
+        for row_index in range(sheet.max_row):
+            row_mark = 1 + row_index
 
-                flawed_row = None
-                for df_cell in df.loc[row_index]:
-                    if cell_bool(df_cell):
-                        cells.append(df_cell)
-                        len_cells = len(cells)
-                    else:
-                        cells.append("")  # hide empty cells as if empty strings
+            csv_cells = list()
+            len_csv_cells = 0
 
-                    # Warn of trailing spaces
+            for col_index in range(sheet.max_column):
+                cell = sheet.cell(1 + row_index, 1 + col_index)
+                col_mark = cell.column_letter
+                assert col_mark == excel_az_mark(col_index)
 
-                    if str(cells[-1]).endswith(" "):
-                        flawed_row = True
+                if False:
+                    if (col_mark, row_mark) == ("C", 89):
+                        pdb.set_trace()
 
-                cells = cells[:len_cells]  # drop trailing empty cells
-                if flawed_row:
+                csv_cells.append(cell.value)
+                if cell.value is not None:
+                    len_csv_cells = len(csv_cells)
+
+                # Warn of trailing spaces
+
+                if str(csv_cells[-1]).endswith(" "):
                     stderr_print(
-                        "xlslisp: warning: could rstrip cells at: {}".format(cells)
+                        "xlslisp: Warning: "
+                        "could rstrip cell at: {!r}!{}{} {}".format(
+                            sheetname, col_mark, row_mark, csv_cells[-1]
+                        )
                     )
 
-                csv_writer.writerow(cells)
+            csv_cells = csv_cells[:len_csv_cells]  # drop trailing empty csv_cells
 
-            # Strip the mix of "\r\n" and "\n" line-ending's
-            # such as "\n" line-ending's inside multi-line cells
+            csv_writer.writerow(csv_cells)
 
-            charstream.seek(0)
-            csv_chars = charstream.read()
-            csv_lines = csv_chars.splitlines()
+        # Strip the mix of "\r\n" and "\n" line-ending's
+        # such as "\n" line-ending's inside multi-line cells
 
-            # Write the lines with local "os.linesep" line-ending's
-            # but without rstrip'ping the lines  # TODO: poor choice?
+        charstream.seek(0)
+        csv_chars = charstream.read()
+        csv_lines = csv_chars.splitlines()
 
-            csv_joined = "\n".join(csv_lines) + "\n"
-            stderr_print(
-                "xlslisp: writing {} chars of {} rows to:  {}".format(
-                    len(csv_joined), len(df), csv_name
-                )
+        # Write the lines with local "os.linesep" line-ending's
+        # but without rstrip'ping the lines  # TODO: poor choice?
+
+        csv_joined = "\n".join(csv_lines) + "\n"
+        stderr_print(
+            "xlslisp: writing {} chars of {} rows to:  {}".format(
+                len(csv_joined), sheet.max_row, csv_name
             )
+        )
 
-            with open(csv_name, "w") as csv_writing:
-                csv_writing.write(csv_joined)
+        with open(csv_name, "w") as csv_writing:
+            csv_writing.write(csv_joined)
 
-        now = dt.datetime.now()
-        stderr_print("xlslisp: elapsed time of", (now - era), "since", era)
+    now = dt.datetime.now()
+    stderr_print("xlslisp: elapsed time of", (now - era), "since", era)
 
-        sys.exit(0)
-
-    # Else quit
-
-    stderr_print("xlslisp.py:  Xlsx imported, run again with --force to replace Csv's")
-
-    sys.exit(1)
-
-
-def cell_bool(cell):
-    """Return None if cell encoded like an empty cell, else True"""
-
-    if isinstance(cell, float):
-        if numpy.isnan(cell):
-            return None
-
-    return True
+    sys.exit(0)
 
 
 def xlslisp_compile_argdoc():
@@ -180,6 +175,31 @@ def xlslisp_compile_argdoc():
     exit_unless_main_doc_eq(parser)
 
     return parser
+
+
+# deffed in many files  # missing from docs.python.org
+def excel_az_mark(row_index):
+    """Map row indices 0 1 2 ... to Excel A .. Z, AA .. ZZ, AAA .. XFD ..."""
+
+    marks = ""
+
+    az = string.ascii_uppercase
+    base = len(az)
+
+    width = 1  # width 1 for Excel A .. Z, 2 for AA .. ZZ, etc
+    floor = 0  # min index of this width
+    ceil = base  # one beyond the max index of this width
+    while ceil <= row_index:
+        width += 1
+        floor = ceil
+        ceil = floor + (base ** width)
+
+    remainder = row_index - floor
+    for power in range(width):
+        (remainder, digit) = divmod(remainder, base)
+        marks = az[digit] + marks
+
+    return marks  # "XFD" at 16383 aka ((1 << 14) - 1)
 
 
 # deffed in many files  # missing from docs.python.org
