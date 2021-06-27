@@ -1,103 +1,103 @@
-,,,,
-,for when you got,,,
-,,,,
-,one list,,,
-,of numbered items,,,
-,,,,
-,,,,
+
+,for when you got
+
+,one list
+,of numbered items
+
+
 ,,,,def list.all(items)
 ,list,list.all(items),,"=LAMBDA(items, AND(items))"
-,,,,
-,={0},,,
-,0,False,,
-,,,,
-,={-1;0.0;+1},,,
-,-1,False,,
-,0,,,
-,1,,,
-,,,,
-,"={1.23;TRUE;""abc""}",,,
-,1.23,True,,
-,1,,,
-,abc,,,
-,,,,
-,,,,
+
+,={0}
+,0,False
+
+,={-1;0.0;+1}
+,-1,False
+,0
+,1
+
+,"={1.23;TRUE;""abc""}"
+,1.23,True
+,1
+,abc
+
+
 ,,,,def list.any(items)
 ,items,list.any(items),,"=LAMBDA(items, OR(items))"
-,,,,
-,={1},,,
-,1,True,,
-,,,,
-,={0;1;0},,,
-,0,True,,
-,1,,,
-,0,,,
-,,,,
-,={0;0;0},,,
-,0,,,
-,0,,,
-,0,,,
-,,,,
-,,,,
+
+,={1}
+,1,True
+
+,={0;1;0}
+,0,True
+,1
+,0
+
+,={0;0;0}
+,0
+,0
+,0
+
+
 ,,,,def list.bool(items)
 ,items,list.bool(items),,"=LAMBDA(items,#VALUE!)"
-,,,,
+
 ,={0;1},,,# Our Bool of List is ValueError
 ,0,,,# because Bools of Lists of >= 1 Items would all be True
-,1,,,
-,,,,
+,1
+
 ,=SEQUENCE(0),,,# Excel raises CalcError to block lists of zero items
-,#CALC!,,,
-,,,,
+,#CALC!
+
 ,=0,=TYPE(items),,# Excel often doesn't distinguish an Int from a List of one Int
-,0,True,,
-,,,,
-,=0,=ROWS(items),,
-,0,True,,
-,,,,
-,={0},=TYPE(items),,
-,0,True,,
-,,,,
-,,,,
-,,,,
-,,=TYPE({0}),,
-,,64,,
-,,,,
-,,,,
+,0,True
+
+,=0,=ROWS(items)
+,0,True
+
+,={0},=TYPE(items)
+,0,True
+
+
+
+,,=TYPE({0})
+,,64
+
+
 ,,,,def list.enumerate(items)
 ,items,list.enumerate(items),,"=LAMBDA(items,
     CHOOSE({1,2},
         SEQUENCE(ROWS(items)) - 1,
         items
 ))"
-,,,,
-,"={""abc"";""def""}",,,
-,abc,False,abc,
-,def,True,def,
-,,,,
-,,,,
+
+,"={""abc"";""def""}"
+,abc,False,abc
+,def,True,def
+
+
 ,,,,"def list.item(items, which)"
 ,,,,"=LAMBDA(items, which,
     IF(which < 0,
         INDEX(items, COLUMNS(items) + 1 + which),
         INDEX(items, 1 + which)
 ))"
-,,,,
-,,,,
-,,,,
+
+
+
 ,,,,"def list.filter(func, items)"
 ,,"=list.filter(LAMBDA(x, str.endswith(x, ""a"")),
 items)",,"=LAMBDA(func, items,
     FILTER(items, func(items), SEQUENCE(0))
 )"
-,abc,bca,,
-,acb,cba,,
-,bac,,,
-,bca,,,
-,cab,,,
-,cba,,,
-,,,,
-,,,,
+,abc,bca
+,acb,cba
+,bac
+,bca
+,cab
+,cba
+
+
 ,,,,def list.repr(items)
 ,,,,"=LAMBDA(items,
     LET(
@@ -107,9 +107,9 @@ items)",,"=LAMBDA(func, items,
             ignore_empty,
             items) & ""]""
 ))"
-,items,list.repr(items),,
-,,,,
-,SEQUENCE(3),,,
-,1,"[1, 2, 3]",,
-,2,,,
-,3,,,
+,items,list.repr(items)
+
+,SEQUENCE(3)
+,1,"[1, 2, 3]"
+,2
+,3

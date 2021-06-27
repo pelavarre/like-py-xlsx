@@ -32,8 +32,8 @@ examples:
 
 import __main__
 import argparse
-import datetime as dt
 import csv
+import datetime as dt
 import difflib
 import io
 import os
@@ -85,13 +85,23 @@ def main():
 
             # Format as Txt
 
-            stderr_print("xlslisp: writing file {}".format(csv_name))
             charstream = io.StringIO()
 
             csv_writer = csv.writer(charstream)
             for row_index in range(len(df)):
-                cells = list(df.loc[row_index])
-                cells = (fuzz_cell(_) for _ in cells)
+
+                cells = list()
+                len_cells = 0
+
+                for df_cell in df.loc[row_index]:
+                    if cell_bool(df_cell):
+                        cells.append(df_cell)
+                        len_cells = len(cells)
+                    else:
+                        cells.append("")  # hide empty cells as if empty strings
+
+                cells = cells[:len_cells]  # drop trailing empty cells
+
                 csv_writer.writerow(cells)
 
             # Strip the mix of "\r\n" and "\n" line-ending's
@@ -104,8 +114,15 @@ def main():
             # Write the lines with local "os.linesep" line-ending's
             # but without rstrip'ping the lines  # TODO: poor choice?
 
+            csv_joined = "\n".join(csv_lines) + "\n"
+            stderr_print(
+                "xlslisp: writing {} chars of {} rows to:  {}".format(
+                    len(csv_joined), len(df), csv_name
+                )
+            )
+
             with open(csv_name, "w") as csv_writing:
-                csv_writing.write("\n".join(csv_lines))
+                csv_writing.write(csv_joined)
 
         now = dt.datetime.now()
         stderr_print("xlslisp: elapsed time of", (now - era), "since", era)
@@ -119,14 +136,14 @@ def main():
     sys.exit(1)
 
 
-def fuzz_cell(cell):
-    """Ambiguously drop the floods of "nan,nan,..." from Xlsx as Git Tracked"""
+def cell_bool(cell):
+    """Return None if cell encoded like an empty cell, else True"""
 
     if isinstance(cell, float):
         if numpy.isnan(cell):
-            return ""
+            return None
 
-    return cell
+    return True
 
 
 def xlslisp_compile_argdoc():

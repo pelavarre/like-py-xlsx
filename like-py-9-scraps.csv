@@ -1,25 +1,25 @@
-,,,,
+
 ,,,,def bool.as_integer_ratio(bit)
 ,,,,"=LAMBDA(bit, IF(bit, {1;1}, {0;1}))"
-,,,,
-,bit,bool.as_integer_ratio(bit),,
-,,,,
-,False,0,,
-,,1,,
-,,,,
-,True,1,,
-,,1,,
-,,,,
-,,,,
+
+,bit,bool.as_integer_ratio(bit)
+
+,False,0
+,,1
+
+,True,1
+,,1
+
+
 ,,,,def bool.bit_length(bit)
 ,bit,bool.bit_length(bit),,"=LAMBDA(bit, INT(bit))"
 ,False,0,,# same code for def bool.bit_length/ .float/ .int
-,True,1,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,"=LAMBDA(I, INT(IF(i, LOG(ABS(i), 2) + 1)))",
+,True,1
+
+
+
+
+,,,"=LAMBDA(I, INT(IF(i, LOG(ABS(i), 2) + 1)))"
 ,False,0,0,True
 ,True,1,1,True
 ,2,3,2,True
