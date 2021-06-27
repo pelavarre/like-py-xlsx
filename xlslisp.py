@@ -238,8 +238,6 @@ def exit_unless_main_doc_eq(parser):
 
 
 # deffed in many files  # missing from docs.python.org
-
-
 def rows_complete(rows, cell):
     """Add cells to make every row as wide as the widest row"""
 
