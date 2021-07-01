@@ -49,8 +49,8 @@ chars, suffix
         pairs, MID(body, stops, 2),
         cuts, IF(picks = ""\"", """", picks),
         patches, IF(pairs = ""\\"", ""\"", cuts),
-        ignore_empty, TRUE,
-        joined, TEXTJOIN("""", ignore_empty, patches),
+        ignore_empty_eq_true, TRUE,
+        joined, TEXTJOIN("""", ignore_empty_eq_true, patches),
         joined
 ))(""'abc\\def\""""ghi\'kjl'"")"
 ,,,,# Python Eval pretty much undoes Python Repr
@@ -196,8 +196,8 @@ chars, suffix
         slashes, IF(picks = ""\"", ""\\"", picks),
         ticks, IF(picks = ""'"", ""\'"", slashes),
         doubles, IF(picks = """""""", ""\"""""", ticks),
-        ignore_empty, TRUE,
-        joined, TEXTJOIN("""", ignore_empty, doubles),
+        ignore_empty_eq_true, TRUE,
+        joined, TEXTJOIN("""", ignore_empty_eq_true, doubles),
         quoted, ""'"" & joined & ""'"",
         quoted
 ))"

@@ -6,18 +6,17 @@ zsh: exit 1
 openpyxl==3.0.7
 pandas==1.2.5
 (PIPS) %
-
-(PIPS) %
+(PIPS) % ./xlslisp.py --force like-py.xlsx
 xlslisp: reading 10 sheets from:  like-py.xlsx
 xlslisp: writing 6125 chars of 165 rows to:  like-py-0-welcome.csv
 xlslisp: writing 914 chars of 37 rows to:  like-py-1-bool.csv
 xlslisp: writing 4263 chars of 165 rows to:  like-py-2-int.csv
 xlslisp: writing 1126 chars of 47 rows to:  like-py-3-float.csv
-xlslisp: writing 6591 chars of 169 rows to:  like-py-4-str.csv
-xlslisp: writing 1980 chars of 102 rows to:  like-py-5-list.csv
+xlslisp: writing 6623 chars of 169 rows to:  like-py-4-str.csv
+xlslisp: writing 2261 chars of 113 rows to:  like-py-5-list.csv
 xlslisp: writing 2617 chars of 121 rows to:  like-py-6-object.csv
 xlslisp: writing 569 chars of 29 rows to:  like-py-7-keystrokes.csv
 xlslisp: writing 2028 chars of 74 rows to:  like-py-8-etc.csv
-xlslisp: writing 1482 chars of 76 rows to:  like-py-9-scraps.csv
-xlslisp: elapsed time of 0:00:00.105314 since 2021-06-26 21:00:04.763880
+xlslisp: writing 19 chars of 3 rows to:  like-py-9-scraps.csv
+xlslisp: elapsed time of 0:00:00.115561 since 2021-06-30 16:56:59.840034
 (PIPS) %
