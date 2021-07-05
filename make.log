@@ -17,7 +17,7 @@ xlslisp: writing 3578 chars of 165 rows to:  list.csv
 xlslisp: writing 1156 chars of 40 rows to:  function.csv
 xlslisp: writing 2973 chars of 137 rows to:  object.csv
 xlslisp: writing 622 chars of 35 rows to:  keystrokes.csv
-xlslisp: writing 2407 chars of 80 rows to:  etc.csv
+xlslisp: writing 2517 chars of 80 rows to:  etc.csv
 xlslisp: writing 137 chars of 14 rows to:  scraps.csv
-xlslisp: elapsed time of 0:00:00.118227 since 2021-07-05 13:32:27.204509
+xlslisp: elapsed time of 0:00:00.117845 since 2021-07-05 16:07:43.211579
 (PIPS) %
