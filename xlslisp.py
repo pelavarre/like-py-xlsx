@@ -27,6 +27,8 @@ examples:
   xlslisp.py -f like-py.xlsx && ls like-py-*.csv
 """
 
+# TODO: add Warning of could rstrip columns, when rightmost columns empty
+
 # code reviewed by people, and by Black and Flake8 bots
 
 
@@ -83,9 +85,8 @@ def main():
     for (index, sheetname) in enumerate(sheet_by_name_keys_list):
         sheet = sheet_by_name[sheetname]
 
-        csv_name = "{space}-{dashed_sheet}.csv".format(
-            space=space, dashed_sheet=sheetname.replace(" ", "-")
-        ).lower()
+        csv_word = sheetname.split()[-1]
+        csv_name = "{csv_word}.csv".format(csv_word=csv_word.lower())
 
         # Collect Rows of String Values
 

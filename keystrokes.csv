@@ -1,5 +1,8 @@
 ,,
 ,,
+,Keystrokes,
+,,
+,,
 ,Mac,
 ,Keyboard,
 ,Shortcuts,Meaning
@@ -7,6 +10,9 @@
 ,,
 ,⌃  Return,Run cell and do Not step away from it
 ,⌃ ⌥  Return,Insert line break
+,,
+,⌘ ←,First Cell
+,⌘ ↑,First Row
 ,,
 ,⌘ ↑,Move cursor to home left of line
 ,⌘ ↓,Move cursor to right end of line

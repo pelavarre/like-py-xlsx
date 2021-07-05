@@ -142,7 +142,7 @@
 ,,"For instance, you can easily split apart the Microsoft Windows path name of a file",,,,
 ,,,,,,
 ,,,,"=list.item(str.rpartition(""C:\My Documents\like-py.xlsx"", ""\""), -1)",,
-,,,,C:\My Documents,,
+,,,,like-py.xlsx,,
 ,,,,,,
 ,,,,,,
 ,## 6 As light as 1 function,,,,,

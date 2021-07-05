@@ -154,9 +154,13 @@ chars, suffix
 ,,,,"=LAMBDA(chars, MID(1, SEQUENCE(LEN(chars)), 1))"
 ,,,,
 ,,,,
+,chars,str.lower(chars),,def str.lower(chars)
+,AbcdEfghIj,abcdefghij,,"=LAMBDA(chars, LOWER(chars))"
+,,,,
+,,,,
 ,,,,def str.ord(chars)
 ,,,,"=LAMBDA(chars, UNICODE(chars))"
-,ch,chr.int(ch),,
+,ch,str.ord(ch),,
 ,,,,
 ,A,65,,
 ,⌘,8984,,
@@ -182,7 +186,6 @@ chars, suffix
 )))"
 ,,,,
 ,"=str.partition(""C:\My Documents\like-py.xlsx"", ""\"")",,,
-,,,,
 ,C:,,,
 ,\,,,
 ,My Documents\like-py.xlsx,,,
@@ -230,7 +233,6 @@ chars, suffix
 )))"
 ,,,,
 ,"=str.rpartition(""C:\My Documents\like-py.xlsx"", ""\"")",,,
-,,,,
 ,C:\My Documents,,,
 ,\,,,
 ,like-py.xlsx,,,
@@ -239,11 +241,10 @@ chars, suffix
 ,,,,def str.set(chars)
 ,,,,=sort uniq of items or chars
 ,,,,
+,,,,
 ,,,,def str.sorted(chars)
 ,,,,=LAMBDA items or chars
 ,,,,
 ,,,,
-,,,,
-,,,,
-,,,,
-,,,,`
+,chars,str.upper(chars),,def str.upper(chars)
+,AbcdEfghIj,ABCDEFGHIJ,,"=LAMBDA(chars, UPPER(chars))"

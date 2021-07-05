@@ -2,7 +2,7 @@
 ,,,,
 ,List,,,
 ,,,,
-,for when you have one List of Item's,,,
+,for when you have one List of 1 or more Item's,,,
 ,"but you want Bool, Int, Str, or more List's of Item's",,,
 ,,,,
 ,,,,
@@ -80,52 +80,119 @@
 ,,,,"def list.item(items, which)"
 ,,,,"=LAMBDA(items, which,
     IF(which < 0,
-        INDEX(items, COLUMNS(items) + 1 + which),
+        INDEX(items, ROWS(items) + 1 + which),
         INDEX(items, 1 + which)
 ))"
+,items,,,
 ,,,,
+,={11;22;33},,,
+,11,"=list.item(items, 0)",,
+,22,11,,
+,33,,,
+,,"=list.item(items, 2)",,
+,,33,,
 ,,,,
+,,"=list.item(items,-2)",,
+,,22,,
 ,,,,
-,,,,"def list.filter(func, items)"
-,,"=list.filter(LAMBDA(x, str.endswith(x, ""a"")),
-items)",,"=LAMBDA(func, items,
-    FILTER(items, func(items), SEQUENCE(0))
-)"
-,abc,bca,,
-,acb,cba,,
-,bac,,,
-,bca,,,
-,cab,,,
-,cba,,,
+,,"=list.item(items,-1)",,
+,,33,,
+,,,,
+,"=SEQUENCE(3, 2)","=TRANSPOSE(INDEX(items, 2, 0))",,# Excel takes code 0 to mean talk of whole rows or whole columns
+1,2,3,,
+3,4,4,,
+5,6,,,
 ,,,,
 ,,,,
 ,,,,def list.len(items)
-,,,,# TODO: implement list.len
+,items,=list.len(items),,"=LAMBDA(items, ROWS(items))"
+,,,,
+,"={""abc"";""def""}",,,
+,abc,2,,
+,def,,,
+,,,,
+1,2,3,,
+3,4,,,
+5,6,,,
+,,,,
+,,,,def list.repr.item(obj)
+,obj,list.repr.item(obj),,"=LAMBDA(obj,
+        SWITCH(TYPE(obj),
+            1, int.repr(obj),
+            2, str.repr(obj),
+            4, bool.repr(obj),
+            128, function.repr(obj),
+            ""<"" & obj & "">""
+))"
+,,,,"# differs from _repr by having no clause of:  64, list.repr(obj),"
+,1,1,,# injecting that clause somehow raises NumError
+,,,,
+,Aa,'Aa',,
+,,,,
+,=SEQUENCE(4),,,
+,1,<1>,,
+,2,<2>,,
+,3,<3>,,
+,4,<4>,,
+,,,,
+,,,,
+,,,,def list.repr.map(items)
+,items,list.repr.map(items),,"=LAMBDA(items,
+    LET(
+        head, INDEX(items, 1, 1),
+        stops, SEQUENCE(ROWS(items)),
+        IF(stops = 1,
+            list.repr.item(head),
+            LET(
+                tail_stops, 1 + SEQUENCE(ROWS(items) - 1),
+                tails, INDEX(items, tail_stops),
+                tail_reprs, list.repr.map(tails),
+                INDEX(tail_reprs, stops - 1)
+))))"
+,,,,
+,=SEQUENCE(4),,,
+,1,1,,
+,2,2,,
+,3,3,,
+,4,4,,
+,,,,
+,"={""aa"";""bb"";""cc""; ""dd""}",,,
+,aa,'aa',,
+,bb,'bb',,
+,cc,'cc',,
+,dd,'dd',,
 ,,,,
 ,,,,
 ,,,,def list.repr(items)
-,,,,"=LAMBDA(items,
+,items,list.repr(items),,"=LAMBDA(items,
     LET(
         ignore_empty_eq_false, FALSE,
         ""["" & TEXTJOIN(
             "", "",
             ignore_empty_eq_false,
-            items) & ""]""
+            list.repr.map(items)) & ""]""
 ))"
-,items,list.repr(items),,
 ,,,,
-,SEQUENCE(3),,,
+,=SEQUENCE(3),,,
 ,1,"[1, 2, 3]",,
 ,2,,,
 ,3,,,
 ,,,,
-,"=CHOOSE({1;2;3},""aa"",""bb"",""cc"")",,,
-,aa,"[aa, bb, cc]",,# TODO: wrong answer
+,"={""aa"";""bb"";""cc""}",,,
+,aa,"['aa', 'bb', 'cc']",,
 ,bb,,,
 ,cc,,,
 ,,,,
-,,str.repr(items),,
-,"=CHOOSE({1;2;3},""aa"",""bb"",""cc"")",,,
-,aa,#N/A,,"# TODO: #N/A is a fair answer here, but can we solve list.repr?"
-,bb,,,
-,cc,,,
+,"={TRUE;1;2.34;""Abc""}",,,
+,True,"[True, 1, 2.34, 'Abc']",,
+,1,,,
+,2.34,,,
+,Abc,,,
+,,,,
+,"=SEQUENCE(3, 2)",,,
+1,2,#REF!,,# TODO: our code raises RefError for Repr of List of Lists
+3,4,,,
+5,6,,,
+,,,,
+,,,,
+,,,,def random.sample(items)

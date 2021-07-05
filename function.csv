@@ -1,0 +1,53 @@
+,,,,
+,,,,
+,Function,,,
+,,,,
+,for when you have one Function here spoken of as Func,,,
+,,,,
+,,,,
+,,,,"def function.filter(func, items)"
+,items,results,,"=LAMBDA(func, items,
+    FILTER(items, func(items), SEQUENCE(0))
+)"
+,,,,
+,"={""abc"";""acb"";""bac"";""bca"";""cab"";""cba""}",,,
+,,"=function.filter(LAMBDA(x, str.endswith(x, ""a"")),
+items)",,
+,,,,
+,abc,bca,,
+,acb,cba,,
+,bac,,,
+,bca,,,
+,cab,,,
+,cba,,,
+,,,,
+,,,,
+,,,,"def function.map(func, items)"
+,,,,"=LAMBDA(func, items,
+    LET(
+        head, INDEX(items, 1),
+        stops, SEQUENCE(ROWS(items)),
+        IF(stops = 1,
+            func(head),
+            LET(
+                tail_stops, 1 + SEQUENCE(ROWS(items) - 1),
+                tails, INDEX(items, tail_stops),
+                INDEX(function.map(func, tails), stops - 1)
+))))"
+,,,,
+,items,"function.map.(str.ord, items)",,
+,,,,
+,"={""A"";""b"";""c""}",,,
+,A,65,,
+,b,98,,
+,c,99,,
+,,,,
+,,,,
+,,,,def function.repr(func)
+,,,,"=LAMBDA(func, ""<function>"")"
+,,,,
+,,=function.repr(function.repr),,
+,,<function>,,
+,,,,
+,,"=LAMBDA(func, ""<"" & func & "">"")(function.repr)",,
+,,#VALUE!,,# Excel raises ValueError to refuse to print Function Names

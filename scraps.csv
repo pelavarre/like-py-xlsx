@@ -1,3 +1,14 @@
-,
-,
-,Collect Trash
+,,
+,,
+,Scraps,
+,,
+,,
+,,"=UNIQUE(MID(""Abracadabra"", SEQUENCE(LEN(""Abracadabra"")), 1))"
+,,A
+,,b
+,,r
+,,c
+,,d
+,,
+,,"=""A""=""a"""
+,,True

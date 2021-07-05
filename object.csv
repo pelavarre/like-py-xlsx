@@ -66,20 +66,25 @@
 ,0,,,
 ,,,,
 ,,,,
-,,,,
 ,,,,def _chr(int)
 ,,,,int.chr
 ,,,,
 ,,,,def _enumerate(items)
+,,,,list.enumerate
 ,,,,
 ,,,,def _eval(chars)
+,,,,str.eval
 ,,,,
 ,,,,"def _filter(func, items)"
+,,,,function.filter
 ,,,,
 ,,,,def _float(obj)
 ,,,,str.float
 ,,,,
 ,,,,def _format(obj)
+,,,,
+,,,,def _hex(i)
+,,,,int.hex
 ,,,,
 ,,,,def _int(obj)
 ,,,,"=LAMBDA(obj,
@@ -88,36 +93,43 @@
             INT(obj)
 ))"
 ,,,,
-,,,,def _hex(i)
-,,,,
-,,,,def _int(obj)
+,,,,"def _int_base(obj, base)"
+,,,,str.int_base
 ,,,,
 ,,,,def _len(obj)
+,,,,list.len or str.len
 ,,,,
 ,,,,def _list(items)
 ,,,,
-,,,,def _map(items)
+,,,,"def _map(func, items)"
+,,,,function.map
 ,,,,
 ,,,,def _max(items)
 ,,,,
 ,,,,def _min(items)
 ,,,,
 ,,,,def _oct(i)
+,,,,int.oct
 ,,,,
 ,,,,def _ord(chars)
+,,,,str.ord
 ,,,,
 ,,,,def _range(stop)
 ,,,,"def _range_stop(start, stop)"
 ,,,,"def _range_step(start, stop, step)"
+,,,,int.range
 ,,,,
 ,,,,def _repr(obj)
 ,,,,"=LAMBDA(obj,
         SWITCH(TYPE(obj),
+            1, int.repr(obj),
             2, str.repr(obj),
             4, bool.repr(obj),
             64, list.repr(obj),
-            """" & obj
+            128, function.repr(obj),
+            ""<"" & obj & "">""
 ))"
+,,,,
 ,obj,_repr(obj),,
 ,,,,
 ,False,False,,
@@ -128,15 +140,21 @@
 ,ab'cd,'ab\'cd',,
 ,⌃⌥⇧⌘⎋⇥⋮,'⌃⌥⇧⌘⎋⇥⋮',,
 ,,,,
-,SEQUENCE(3),,,
-,1,"[1, 2, 3]",,
-,2,,,
-,3,,,
+,"={TRUE;1;2.34;""Abc""}",,,
+,True,"[True, 1, 2.34, 'Abc']",,
+,1,,,
+,2.34,,,
+,Abc,,,
+,,,,
+,=_repr(_repr),,,
+,<function>,,,
+,,,,
+,,,,
 ,,,,def _reversed(obj)
 ,,,,=LAMBDA items or chars
 ,,,,
 ,,,,def _set(obj)
-,,,,=sort uniq of items or chars
+,,,,=shuffled sort uniq of items or chars
 ,,,,
 ,,,,def _sorted(obj)
 ,,,,=LAMBDA items or chars
@@ -146,7 +164,7 @@
         SWITCH(TYPE(obj),
             2, bool.str(obj),
             64, list.str(obj),
-            """"&obj
+            """" & obj
 ))"
 ,,,,
 ,,,,def _zip(lists)
