@@ -10,14 +10,14 @@ pandas==1.2.5
 xlslisp: reading 11 sheets from:  like-py.xlsx
 xlslisp: writing 6122 chars of 165 rows to:  welcome.csv
 xlslisp: writing 914 chars of 37 rows to:  bool.csv
-xlslisp: writing 4263 chars of 165 rows to:  int.csv
-xlslisp: writing 1126 chars of 47 rows to:  float.csv
-xlslisp: writing 6809 chars of 170 rows to:  str.csv
+xlslisp: writing 4328 chars of 166 rows to:  int.csv
+xlslisp: writing 1180 chars of 48 rows to:  float.csv
+xlslisp: writing 7317 chars of 194 rows to:  str.csv
 xlslisp: writing 3578 chars of 165 rows to:  list.csv
-xlslisp: writing 1156 chars of 40 rows to:  function.csv
-xlslisp: writing 2973 chars of 137 rows to:  object.csv
-xlslisp: writing 622 chars of 35 rows to:  keystrokes.csv
-xlslisp: writing 2517 chars of 80 rows to:  etc.csv
+xlslisp: writing 1362 chars of 51 rows to:  function.csv
+xlslisp: writing 8002 chars of 285 rows to:  object.csv
+xlslisp: writing 681 chars of 36 rows to:  keystrokes.csv
+xlslisp: writing 2892 chars of 84 rows to:  etc.csv
 xlslisp: writing 137 chars of 14 rows to:  scraps.csv
-xlslisp: elapsed time of 0:00:00.117845 since 2021-07-05 16:07:43.211579
+xlslisp: elapsed time of 0:00:00.150631 since 2021-07-05 16:35:41.580257
 (PIPS) %

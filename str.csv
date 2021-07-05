@@ -39,6 +39,17 @@ chars, suffix
 ,,True,,# empty ends with empty
 ,,,,# Excel renders Empty Str same as Empty Cell
 ,,,,
+,,,,def str.enumerate(chars)
+,items,str.enumerate(items),,"=LAMBDA(chars,
+    CHOOSE({1,2},
+        SEQUENCE(LEN(chars)) - 1,
+        MID(chars, SEQUENCE(LEN(chars)), 1)
+))"
+,,,,
+,abc,0,a,
+,,1,b,
+,,2,c,
+,,,,
 ,,,,
 ,,,,def str.eval(chars)
 ,chars,str.eval(chars),,"=LAMBDA(chars,
@@ -65,6 +76,14 @@ chars, suffix
 ,,,,
 ,abcdef,bcde,,# TODO: require starts and ends with same quote mark
 ,a,#VALUE!,,# we raise ValueError to reject < 2 chars
+,,,,
+,,,,
+,,,,def str.float(chars)
+,chars,str.float(chars),,"=LAMBDA(chars, 0 + chars)"
+,,0,,# Excel renders Empty Str same as Empty Cell
+,,#VALUE!,,
+,-4,-4,,
+,-1.23,-1.23,,
 ,,,,
 ,,,,
 ,,,,def str.int(chars)
@@ -136,7 +155,7 @@ chars, suffix
 ,,,,def str.int_base_16(chars)
 ,,,,# TODO: _16 a la _2
 ,,,,
-,,,,"def str.int_base_base(chars, base)"
+,,,,"def str.int_base_n(chars, n)"
 ,,,,# TODO: _base a la base 10 at str.int but for choice of base
 ,,,,
 ,# TODO,,,"def str.int_base(chars, base)"
@@ -146,12 +165,21 @@ chars, suffix
         2, str.int_base_2(chars),
         8, str.int_base_8(chars),
         16, str.int_base_16(chars),
-        str.int_base_base(chars, base),
+        str.int_base_n(chars, base),
 ))"
 ,,,,
 ,,,,
-,# TODO,,,def str.list(chars)
-,,,,"=LAMBDA(chars, MID(1, SEQUENCE(LEN(chars)), 1))"
+,,,,def str.len(chars)
+,chars,str.len(chars),,"=LAMBDA(chars, LEN(chars))"
+,Aa,2,,
+,,,,
+,,,,
+,,,,def str.list(chars)
+,chars,str.list(chars),,"=LAMBDA(chars, MID(chars, SEQUENCE(LEN(chars)), 1))"
+,,,,
+,Aa,A,,
+,,a,,
+,,,,
 ,,,,
 ,,,,
 ,chars,str.lower(chars),,def str.lower(chars)

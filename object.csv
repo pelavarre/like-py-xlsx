@@ -7,46 +7,77 @@
 ,"(and probably not tagged by the poorly doc'ed Excel Type Codes of 0, 8, 32, and 128)",,,
 ,,,,
 ,,,,
-,,,,def _abs(f)
-,,,,"=LAMBDA(f, ABS(f))"
+,,,,def _abs(obj)
+,obj,_abs(obj),,"=LAMBDA(obj,
+    SWITCH(TYPE(obj),
+         1, IF(obj <> """", ABS(obj), ABS("""")),
+         4, ABS(obj),
+         ABS("""")
+))"
+,,,,
+,False,0,,
+,-10.23,10.23,,
+,9,9,,
+,,,,# Excel renders Empty Cell same as Empty Str
+,,#VALUE!,,# Excel guesses Int or Float Zero for Empty Cell
+,abc,#VALUE!,,
+,,,,
+,"={4.56;""Abc""}",,,
+,4.56,#VALUE!,,
+,Abc,,,
 ,,,,
 ,,,,
 ,,,,def _all(items)
-,,,,"=LAMBDA(obj,
+,obj,_all(obj),,"=LAMBDA(obj,
         SWITCH(TYPE(obj),
             2, TRUE,
             64, list.all(obj),
-            #VALUE!
+            AND("""")
 ))"
+,,#VALUE!,,# Excel renders Empty Cell same as Empty Str
+,,True,,# Excel renders Empty Str same as Empty Cell
+,={1;1},True,,
 ,,,,
 ,,,,
 ,,,,def _any(items)
-,,,,"=LAMBDA(obj,
+,obj,_any(obj),,"=LAMBDA(obj,
         SWITCH(TYPE(obj),
             2, str.any(obj),
             64, list.any(obj),
-            #VALUE!
+            OR("""")
 ))"
-,obj,_any(obj),,
-,,False,,
-,{0;0},True,,
+,,#VALUE!,,# Excel renders Empty Cell same as Empty Str
+,,False,,# Excel renders Empty Str same as Empty Cell
+,={0;0},False,,
 ,,,,
 ,,,,
 ,,,,def _ascii(obj)
+,,,,# TODO: escape the non-Ascii chars of Str
 ,,,,
 ,,,,
-,,,,def _bin(i)
+,,,,def _bin(obj)
+,obj,_bin(obj),,"=LAMBDA(obj,
+        SWITCH(TYPE(obj),
+            1, IF(AND(obj <> """", obj = INT(obj)), int.bin(obj), DEC2BIN("""")),
+            4, DEC2BIN(INT(obj)),
+            DEC2BIN("""")
+))"
+,,#VALUE!,,# Excel renders Empty Cell same as Empty Str
+,False,0,,# Excel guesses Int or Float Zero for Empty Cell
+,123,0b1111011,,
+,1.23,#VALUE!,,
 ,,,,
 ,,,,
 ,,,,def _bool(obj)
-,,,,"=LAMBDA(obj,
+,obj,_bool(obj),,"=LAMBDA(obj,
         SWITCH(TYPE(obj),
             1, IF(obj, TRUE),
             2, str.bool(obj),
             4, obj,
             #VALUE!
 ))"
-,obj,_bool(obj),,
+,,,,
+,,False,,# Excel renders Empty Cell same as Empty Str
 ,False,False,,
 ,True,True,,
 ,-1.23,True,,
@@ -66,40 +97,151 @@
 ,0,,,
 ,,,,
 ,,,,
-,,,,def _chr(int)
-,,,,int.chr
+,,,,def _chr(obj)
+,obj,_chr(obj),,"=LAMBDA(obj,
+        SWITCH(TYPE(obj),
+            1, IF(AND(obj <> """", obj = INT(obj)), int.chr(obj), UNICHAR(0)),
+            4, UNICHAR(INT(obj)),
+            UNICHAR(0)
+))"
 ,,,,
-,,,,def _enumerate(items)
-,,,,list.enumerate
+,,#VALUE!,,# Excel renders Empty Cell same as Empty Str
+,123,{,,# Excel guesses Int or Float Zero for Empty Cell
+,1.23,#VALUE!,,
+,,,,
+,,=str.ord(_chr(TRUE)),,
+,,1,,
+,,,,
+,,,,
+,,,,def _enumerate(obj)
+,obj,_enumerate(obj),,"=LAMBDA(obj,
+        SWITCH(TYPE(obj),
+            2, str.enumerate(obj),
+            64, list.enumerate(obj),
+            SEQUENCE(-1)
+))"
+,,,,
+,abc,0,a,
+,,1,b,
+,,2,c,
+,,,,
+,"={""abc"";""def""}",,,
+,abc,0,abc,
+,def,1,def,
+,,,,
 ,,,,
 ,,,,def _eval(chars)
 ,,,,str.eval
+,,,,"# TODO: solve eval(""None"")"
 ,,,,
 ,,,,"def _filter(func, items)"
-,,,,function.filter
+,obj,"_filter(_len, obj)",,"=LAMBDA(func, items, function.filter(func, items))"
+,,,,
+,={11;0;33},,,
+,,"=function.filter(LAMBDA(x, x), items)",,
+,11,11,,
+,0,33,,
+,33,,,
+,,,,
 ,,,,
 ,,,,def _float(obj)
-,,,,str.float
+,obj,_float(obj),,"=LAMBDA(obj,
+        SWITCH(TYPE(obj),
+            1, IF(obj <> """", obj, 0 + """"),
+            2,  0 + obj,
+            4,  0 + obj,
+            0 + """"
+))"
+,,#VALUE!,,
+,,#VALUE!,,
+,False,0,,
+,-4,-4,,
+,-1.23,-1.23,,
+,0xabc,#VALUE!,,
+,,,,
 ,,,,
 ,,,,def _format(obj)
 ,,,,
-,,,,def _hex(i)
-,,,,int.hex
+,,,,def _hex(obj)
+,obj,_hex(obj),,"=LAMBDA(obj,
+        SWITCH(TYPE(obj),
+            1, IF(AND(obj <> """", obj = INT(obj)), int.hex(obj), DEC2HEX("""")),
+            4, DEC2HEX(INT(obj)),
+            DEC2HEX("""")
+))"
+,,#VALUE!,,# Excel renders Empty Cell same as Empty Str
+,False,0,,# Excel guesses Int or Float Zero for Empty Cell
+,123,0x7b,,
+,1.23,#VALUE!,,
 ,,,,
 ,,,,def _int(obj)
-,,,,"=LAMBDA(obj,
-        SWITCH(TYPE(obj),
-            2, str.int(obj),
-            INT(obj)
+,obj,_int(obj),,"=LAMBDA(obj,
+    SWITCH(TYPE(obj),
+        1, IF(obj <> """", INT(obj), INT("""")),
+        2, str.int(obj),
+        4, INT(obj),
+        INT("""")
 ))"
+,,#VALUE!,,
+,,#NUM!,,
+,False,0,,
+,-123,-123,,
+,1.00,#NUM!,,
+,1.9,1,,
 ,,,,
 ,,,,"def _int_base(obj, base)"
 ,,,,str.int_base
 ,,,,
+,,,,def _isinstance.int(obj)
+,obj,_isinstance.int(obj),,"=LAMBDA(obj,
+    SWITCH(TYPE(obj),
+        1, IF(AND(obj <> """", obj = INT(obj)), TRUE, 0),
+        4, TRUE,
+        0
+))"
+,,0,,
+,False,True,,"# same as arcane obscure Python:  isinstance(False, int)"
+,1,True,,
+,2.3,0,,
+,123,0,,# Excel render Str of Digit Chars same as Int
+,,,,
+,,,,
 ,,,,def _len(obj)
-,,,,list.len or str.len
+,obj,_len(obj),,"=LAMBDA(obj,
+        SWITCH(TYPE(obj),
+            2, str.len(obj),
+            64, list.len(obj),
+            SEQUENCE(-1)
+))"
+,,,,
+,False,#VALUE!,,# unlike Excel formatting as Chars to count off Len
+,-10.23,#VALUE!,,
+,9,#VALUE!,,
+,,,,
+,abc,3,,
+,,,,
+,"={4.56;""Abc""}",,,
+,4.56,2,,
+,Abc,,,
+,,,,
 ,,,,
 ,,,,def _list(items)
+,items,_list(items),,"=LAMBDA(obj,
+        SWITCH(TYPE(obj),
+            2, str.list(obj),
+            64, obj,
+            SEQUENCE(-1)
+))"
+,,,,
+,Aa,A,,
+,,a,,
+,,,,
+,"={""A"";""a""}",,,
+,A,A,,
+,a,a,,
+,,,,
+,3,#VALUE!,,
+,,,,
 ,,,,
 ,,,,"def _map(func, items)"
 ,,,,function.map
@@ -109,20 +251,80 @@
 ,,,,def _min(items)
 ,,,,
 ,,,,def _oct(i)
-,,,,int.oct
+,obj,_=oct(obj),,"=LAMBDA(obj,
+        SWITCH(TYPE(obj),
+            1, IF(AND(obj <> """", obj = INT(obj)), int.oct(obj), DEC2OCT("""")),
+            4, DEC2OCT(INT(obj)),
+            DEC2OCT("""")
+))"
+,,#VALUE!,,# Excel renders Empty Cell same as Empty Str
+,False,0,,# Excel guesses Int or Float Zero for Empty Cell
+,123,0o173,,
+,1.23,#VALUE!,,
+,,,,
 ,,,,
 ,,,,def _ord(chars)
-,,,,str.ord
+,obj,_ord(obj),,"=LAMBDA(obj,
+        SWITCH(TYPE(obj),
+            2, IF(LEN(obj) = 1, str.ord(obj), UNICODE("""")),
+            UNICODE("""")
+))"
+,A,65,,
+,Aa,#VALUE!,,
+,123,#VALUE!,,
+,,,,
 ,,,,
 ,,,,def _range(stop)
+,obj,_range(obj),,"=LAMBDA(stop,
+    IF(_isinstance.int(stop),
+        int.range(INT(stop)),
+        SEQUENCE(0)
+))"
+,,,,
+,True,0,,
+,,,,
+,2,0,,
+,,1,,
+,,,,
+,2.3,#VALUE!,,
+,,,,
+,,,,
 ,,,,"def _range_stop(start, stop)"
+,objs,_range_stop(*objs),,"=LAMBDA(start, stop,
+    IF(AND(_isinstance.int(start), _isinstance.int(stop)),
+        int.range_stop(INT(start), INT(stop)),
+        SEQUENCE(0)
+))"
+,,,,
+,0,0,,
+,2,1,,
+,,,,
+,-0.4,#VALUE!,,
+,2.7,,,
+,,,,
+,,,,
 ,,,,"def _range_step(start, stop, step)"
-,,,,int.range
+,objs,_range_step(*objs),,"=LAMBDA(start, stop, step,
+    IF(AND(
+            _isinstance.int(start), _isinstance.int(stop), _isinstance.int(step)
+        ),
+        int.range_step(INT(start), INT(stop), INT(step)),
+        SEQUENCE(0)
+))"
+,,,,
+,-2,0,,
+,4,2,,
+,2,4,,
+,,,,
+,-0.4,#VALUE!,,
+,2.7,,,
+,0.9,,,
+,,,,
 ,,,,
 ,,,,def _repr(obj)
 ,,,,"=LAMBDA(obj,
         SWITCH(TYPE(obj),
-            1, int.repr(obj),
+            1, IF(obj = """", ""None"", int.repr(obj)),
             2, str.repr(obj),
             4, bool.repr(obj),
             64, list.repr(obj),
@@ -131,10 +333,11 @@
 ))"
 ,,,,
 ,obj,_repr(obj),,
-,,,,
+,,,,# Excel renders Empty Cell same as Empty Str
+,,None,,# Excel guesses Int or Float Type and Value Zero for Empty Cell
 ,False,False,,
-,-1.23,-1.23,,
 ,9,9,,"# int.repr(9) is '9', whereas float.repr(9) is '9.0'"
+,-10.23,-10.23,,
 ,"""","'\""'",,
 ,abc,'abc',,
 ,ab'cd,'ab\'cd',,
@@ -146,8 +349,8 @@
 ,2.34,,,
 ,Abc,,,
 ,,,,
-,=_repr(_repr),,,
-,<function>,,,
+,,=_repr(_repr),,
+,,<function>,,
 ,,,,
 ,,,,
 ,,,,def _reversed(obj)
@@ -160,11 +363,26 @@
 ,,,,=LAMBDA items or chars
 ,,,,
 ,,,,def _str(obj)
-,,,,"=LAMBDA(obj,
+,obj,_str(obj),,"=LAMBDA(obj,
         SWITCH(TYPE(obj),
-            2, bool.str(obj),
-            64, list.str(obj),
-            """" & obj
+            2, obj,
+            _repr(obj)
 ))"
+,,,,# Excel renders Empty Cell same as Empty Str
+,,None,,# Excel guesses Int or Float Type and Value Zero for Empty Cell
+,False,False,,
+,9,9,,
+,-10.23,-10.23,,
+,ab'cd,ab'cd,,
+,,,,
+,"={TRUE;1;2.34;""Abc""}",,,
+,True,"[True, 1, 2.34, 'Abc']",,
+,1,,,
+,2.34,,,
+,Abc,,,
+,,,,
+,,=_str(_str),,
+,,<function>,,
+,,,,
 ,,,,
 ,,,,def _zip(lists)

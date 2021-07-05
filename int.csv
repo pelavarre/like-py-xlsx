@@ -60,40 +60,41 @@
 ,0,#VALUE!,,# Excel raises ValueError to block working with \u0000
 ,,,,
 ,,,,
-,i,int.float(i),,def int.float(i)
-,0,0,,"=LAMBDA(i, i)"
-,,,,# Excel does Not distinguish Floats of integers from Ints of integers
+,,,,def int.float(i)
+,i,int.float(i),,"=LAMBDA(i, i)"
+,,0,,# Excel guesses Int or Float Zero for Empty Cell
+,123,123,,# Excel does Not distinguish Floats of integers from Ints of integers
 ,,,,
 ,,,,
 ,,,,def int.hex(i)
-,i,int.hex(i),,"=LAMBDA(i, ""0x"" & DEC2HEX(i))"
+,i,int.hex(i),,"=LAMBDA(i, ""0x"" & LOWER(DEC2HEX(i)))"
 ,,,,
 ,0,0x0,,
-,90,0x5A,,
-,-1,0xFFFFFFFFFF,,"# aka 0xFF_FFFF_FFFF, because Excel sees negative as 10 nybbles"
+,90,0x5a,,
+,-1,0xffffffffff,,"# aka 0xFF_FFFF_FFFF, because Excel sees negative as 10 nybbles"
 ,,,,
-,-1.9,0xFFFFFFFFFF,,# Excel truncates Float to make Int
+,-1.9,0xffffffffff,,# Excel truncates Float to make Int
 ,16.9,0x10,,
 ,,,,
 ,-549755813889,#NUM!,,# Excel raises NumError to block i < -0x80_0000_0000
 ,-549755813888,0x8000000000,,# aka 0x80_0000_0000
-,549755813887,0x7FFFFFFFFF,,# aka 0x7F_FFFF_FFFF
+,549755813887,0x7fffffffff,,# aka 0x7F_FFFF_FFFF
 ,549755813888,#NUM!,,# Excel raises NumError to block i > +0x7F_FFFF_FFFF
 ,,,,
 ,,,,
 ,,,,def int.oct(i)
-,i,int.oct(i),,"=LAMBDA(i, ""0x"" & DEC2OCT(i))"
+,i,int.oct(i),,"=LAMBDA(i, ""0o"" & DEC2OCT(i))"
 ,,,,
-,0,0x0,,
-,90,0x132,,
-,-1,0x7777777777,,"# aka 0o7_777_777_777, because Excel sees negative as 10 triples"
+,0,0o0,,
+,90,0o132,,
+,-1,0o7777777777,,"# aka 0o7_777_777_777, because Excel sees negative as 10 triples"
 ,,,,
-,-1.9,0x7777777777,,# Excel truncates Float to make Int
-,8.9,0x10,,
+,-1.9,0o7777777777,,# Excel truncates Float to make Int
+,8.9,0o10,,
 ,,,,
 ,-536870913,#NUM!,,# Excel raises NumError to block i < -0o4_000_000_000
-,-536870912,0x4000000000,,# aka 0o4_000_000_000
-,536870911,0x3777777777,,# aka 0o3_777_777_777
+,-536870912,0o4000000000,,# aka 0o4_000_000_000
+,536870911,0o3777777777,,# aka 0o3_777_777_777
 ,536870912,#NUM!,,# Excel raises NumError to block i > +0o3_777_777_777
 ,,,,
 ,,,,

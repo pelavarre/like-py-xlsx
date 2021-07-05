@@ -21,21 +21,21 @@
 ,,,,,,,
 ,False,4,,Logical Value,,bool,
 ,,,,,,,
-,#NULL!,16,1,Error Value,,,
-,#DIV/0!,16,2,Error Value,,,
-,#VALUE!,16,3,Error Value,,,
-,#REF!,16,4,Error Value,,,
-,#NAME?,16,5,Error Value,,,
-,#NUM!,16,6,Error Value,,,
-,#N/A,16,7,Error Value,,,
-,,,8,,,,
-,#VALUE!,16,9,Error Value,,,
+,#NULL!,16,1,Error Value,,,=SUM(A1 A2)
+,#DIV/0!,16,2,Error Value,,,=1/0
+,#VALUE!,16,3,Error Value,,,=SEQUENCE(-1)
+,#REF!,16,4,Error Value,,,=#REF!
+,#NAME?,16,5,Error Value,,,=TYPES
+,#NUM!,16,6,Error Value,,,=SQRT(-1)
+,#N/A,16,7,Error Value,,,"=SWITCH(0, 1, 2)"
+,,,8,,,,# doc'ed as Getting Data
+,#VALUE!,16,9,Error Value,#SPILL!,,=SEQUENCE(999)
 ,,,10,,,,
 ,,,11,,,,
 ,,,12,,,,
-,#VALUE!,16,13,Error Value,,,
-,#VALUE!,16,14,Error Value,,,
-,#UNKNOWN!,16,#N/A,Error Value,,,
+,#VALUE!,16,13,Error Value,#FIELD!,,=#REF!.Attribute
+,#VALUE!,16,14,Error Value,#CALC!,,=SEQUENCE(0)
+,#UNKNOWN!,16,,Error Value,,,# faked ( dunno how to test )
 ,,,,,,,
 ,1,64,,Array,,list or set (or tuple or frozenset) of two or more items,
 ,2,,,,,,
@@ -78,3 +78,7 @@
 11,"sixteen row height units per source line, rounded down from Format > AutoFit Row Height",,,,,,
 12,don't yield to Excel cutting spaces out of Lambda argument lists,,,,,,
 13,"tag overloaded function names with last arg name (eg, ""range"" and ""range_stop"" and ""range_step"")",,,,,,
+,,,,,,,
+,"# TODO: in Xlsx, we might should more conform to the Excel convention of right-justify numbers, left-justify text",,,,,,
+,,123,# renders as '123   …',,,,
+,,123,# renders as '…   123',,,,

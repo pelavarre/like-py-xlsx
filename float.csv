@@ -31,6 +31,7 @@
 ,,,,
 ,,,,def float.int(f)
 ,f,float.int(f),,"=LAMBDA(f, TRUNC(f))"
+,,0,,# Excel guesses Int or Float Zero for Empty Cell
 ,-1.23,-1,,"# Python ""int"" is Excel TRUNC"
 ,0,0,,"# Excel INT is Python ""math.floor"""
 ,1.23,1,,
