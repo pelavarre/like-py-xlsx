@@ -169,6 +169,20 @@ chars, suffix
 ))"
 ,,,,
 ,,,,
+,,,,"def str.join(sep, items)"
+,"=str.join(""-"", str.split_sep(""..a...b.c"", "".""))",,,"=LAMBDA(sep,items,
+    LET(
+        ignore_empty_false, FALSE,
+        TEXTJOIN(sep, ignore_empty_false, items)
+))"
+,--a---b-c,,,
+,"=str.split_sep(""a..b.c"", ""."")",,,
+,a,,,
+,,,,
+,b,,,
+,c,,,
+,,,,
+,,,,
 ,,,,def str.len(chars)
 ,chars,str.len(chars),,"=LAMBDA(chars, LEN(chars))"
 ,Aa,2,,
@@ -186,6 +200,47 @@ chars, suffix
 ,AbcdEfghIj,abcdefghij,,"=LAMBDA(chars, LOWER(chars))"
 ,,,,
 ,,,,
+,,,,def str.lstrip(chars)
+,"=""'"" & str.lstrip(""  a  b  "") & ""'""",,,"=LAMBDA(chars,
+    LET(
+        sep, "" "",
+        washed, str.replace.wash(chars),
+        stops, SEQUENCE(MAX(1, LEN(washed))),
+        picks, MID(washed, stops, 1),
+        exact, 0,
+        first, XMATCH(TRUE, picks <> sep, exact),
+        lstripped, IFERROR(MID(chars, first, LEN(chars)), chars),
+        lstripped
+))"
+,'a  b  ',,,"# Python ""str.lstrip"" can layer on ""str.lstrip_seps"""
+,,,,
+,"=""'"" & str.lstrip(""z  a  b  "") & ""'""",,,
+,'z  a  b  ',,,
+,,,,
+,"=""'"" & str.lstrip("""") & ""'""",,,
+,'',,,
+,,,,
+,,,,"def str.lstrip_seps(chars, seps)"
+,"=""'"" & str.lstrip_seps(""-+a-+b-+"", ""+-"") & ""'""",,,"=LAMBDA(chars, seps,
+    LET(
+        sep, LEFT(seps, 1),
+        washed, str.replace.wash_sep(chars, seps, sep),
+        stops, SEQUENCE(MAX(1, LEN(washed))),
+        picks, MID(washed, stops, 1),
+        exact, 0,
+        first, XMATCH(TRUE, picks <> sep, exact),
+        lstripped, IFERROR(MID(chars, first, LEN(chars)), chars),
+        lstripped
+))"
+,'a-+b-+',,,
+,,,,
+,"=""'"" & str.lstrip_seps(""z-+a-+b-+"", ""+-"") & ""'""",,,
+,'z-+a-+b-+',,,
+,,,,
+,"=""'"" & str.lstrip_seps("""", ""+-"") & ""'""",,,
+,'',,,
+,,,,
+,,,,
 ,,,,def str.ord(chars)
 ,,,,"=LAMBDA(chars, UNICODE(chars))"
 ,ch,str.ord(ch),,
@@ -194,9 +249,6 @@ chars, suffix
 ,⌘,8984,,
 ,,,,
 ,ab,97,,
-,,,,
-,,,,
-,# TODO,,,"def str.join(sep, items)"
 ,,,,
 ,,,,
 ,,,,"def str.partition(chars, sep)"
@@ -242,8 +294,46 @@ chars, suffix
 ,⌃⌥⇧⌘⎋⇥⋮,'⌃⌥⇧⌘⎋⇥⋮',,
 ,,,,
 ,,,,
+,,,,def str.replace.wash(chars)
+,"=""'"" & str.replace.wash("" "") & ""'""",,,"=LAMBDA(chars,
+    LET(
+        sep,  "" "",
+        tab, UNICHAR(9),
+        lf, UNICHAR(10),
+        cr, UNICHAR(13),
+        sepped_tab, SUBSTITUTE(chars, tab, sep),
+        sepped_lf, SUBSTITUTE(sepped_tab, lf, sep),
+        sepped_cr, SUBSTITUTE(sepped_lf, cr, sep),
+        sepped_cr
+))"
+,' ',,,
+,,,,
+,,,,
+,,,,"def str.replace.wash_sep(chars, seps, sep)"
+,"=""'"" & str.replace.wash_sep(""+-*/"", ""+-*/"", ""."") & ""'""",,,"=LAMBDA(chars, seps, sep,
+    IF(LEN(seps) = 0,
+        chars,
+        LET(
+            head, LEFT(seps, 1),
+            tails, MID(seps, 2, LEN(seps)),
+            sepped, SUBSTITUTE(chars, head, sep),
+            str.replace.wash_sep(sepped, tails, sep)
+)))"
+,'....',,,# TODO: compare to the set of word seps in Python
+,,,,
+,,,,
+,,,,"def str.replace(chars, old, new)"
+,AbrZcZdZbrZ,,,"=LAMBDA(chars,old,new, SUBSTITUTE(chars, old, new))"
+,,,,
+,,,,
+,,,,"def str.replace_count(chars, old, new, count)"
+,,,,
+,,,,
 ,,,,def str.reversed(chars)
-,,,,reversed chars
+,"=str.join("""", str.reversed(""Abracadabra""))",,,"=LAMBDA(chars,
+    MID(chars, 1 + LEN(CHARS) - SEQUENCE(LEN(chars)), 1)
+)"
+,arbadacarbA,,,
 ,,,,
 ,,,,"def str.rpartition(chars, sep)"
 ,,,,"=LAMBDA(chars, sep,
@@ -265,13 +355,214 @@ chars, suffix
 ,\,,,
 ,like-py.xlsx,,,
 ,,,,
+,,,,def str.rstrip(chars)
+,"=""'"" & str.rstrip(""  a  b  "") & ""'""",,,"=LAMBDA(chars,
+    LET(
+        sep, "" "",
+        washed, str.replace.wash(chars),
+        stops, SEQUENCE(MAX(1, LEN(washed))),
+        picks, MID(washed, stops, 1),
+        exact, 0,
+        reverse, -1,
+        last, XMATCH(
+            TRUE, picks <> sep, exact, reverse
+        ),
+        rstripped, IFERROR(LEFT(chars, last), chars),
+        rstripped
+))"
+,'  a  b',,,"# Python ""str.rstrip"" can layer on ""str.rstrip_seps"""
+,,,,# TODO: some kind of slow broken leftover garbage collection
+,"=""'"" & str.rstrip(""  a  b  z"") & ""'""",,,"# TODO: lets me spell ""str.replace.wash"" as ""str.split.wash"""
+,'  a  b  z',,,
+,,,,
+,"=""'"" & str.rstrip("""") & ""'""",,,
+,'',,,
+,,,,
+,,,,
+,,,,"def str.rstrip_seps(chars, seps)"
+,"=""'"" & str.rstrip_seps(""-+a-+b-+"", ""+-"") & ""'""",,,"=LAMBDA(chars, seps,
+    LET(
+        sep, LEFT(seps, 1),
+        washed, str.replace.wash_sep(chars, seps, sep),
+        stops, SEQUENCE(MAX(1, LEN(washed))),
+        picks, MID(washed, stops, 1),
+        exact, 0,
+        reverse, -1,
+        last, XMATCH(
+            TRUE, picks <> sep, exact, reverse
+        ),
+        rstripped, IFERROR(LEFT(chars, last), chars),
+        rstripped
+))"
+,'-+a-+b',,,
+,,,,
+,"=""'"" & str.rstrip_seps(""-+a-+b-+z"", ""+-"") & ""'""",,,
+,'-+a-+b-+z',,,
+,,,,
+,"=""'"" & str.rstrip_seps("""", ""+-"") & ""'""",,,
+,'',,,
+,,,,
+,,,,
+,,,,def str.set.shuffled(chars)
+,"=""'"" & str.join("""", str.set.shuffled(""Abracadabra"")) & ""'""",,,"=LAMBDA(chars,
+    LET(
+        picks, MID(chars, SEQUENCE(LEN(chars)), 1),
+        weights, RANDARRAY(LEN(chars)),
+        weighted, CHOOSE({1,2}, weights, picks),
+        spread, SORT(weighted),
+        shuffled, INDEX(spread, 0, 2),
+        shuffled
+))"
+,'rbracAbadaa',,,
+,,,,
 ,,,,
 ,,,,def str.set(chars)
-,,,,=sort uniq of items or chars
+,"=""'"" & str.join("""", str.set(""Abracadabra"")) & ""'""",,,"=LAMBDA(chars,
+    LET(
+        picks, MID(chars, SEQUENCE(LEN(chars)), 1),
+        uniques, UNIQUE(picks),
+        shuffled, str.set.shuffled(uniques),
+        shuffled
+))"
+,'rcbdA',,,# TODO: case-respecting Str Sets in Excel
+,,,,
+,,,,
+,,,,"def str.split.squash(chars, sep)"
+,"=""'"" & str.split.squash("" b  c d  e   "", "" "") & ""'""",,,"=LAMBDA(chars, sep,
+    LET(
+        more, sep & chars & sep,
+        stops, SEQUENCE(LEN(more)),
+        picks, MID(more, stops, 1),
+        pairs, MID(more, stops, 2),
+        patches, IF(pairs = (sep & sep), """", picks),
+        ignore_empty_eq_true, TRUE,
+        joined, TEXTJOIN("""", ignore_empty_eq_true, patches),
+        wrapped, IF(LEN(joined) < 2, sep & sep, joined),
+        unwrapped, MID(wrapped, 2, LEN(wrapped) - 2),
+        unwrapped
+))"
+,'b c d e',,,"# Excel Trim is Python Str-Split-Squash but only for Sep = "" "" Space"
+,,,,
+,,"=""'"" & str.split.squash("""", "" "") & ""'""",,
+,,'',,
+,,,,
+,,,,
+,,,,"def str.split.which(chars, sep, which)"
+,"=""'"" & str.split.which("".bbb..cc.ddd..e..."", ""."", 4) & ""'""",,,"=LAMBDA(chars,sep,which,
+    LET(
+        pads, REPT(sep, LEN(chars)),
+        padded, SUBSTITUTE(chars, sep, pads),
+        skipping, which * LEN(chars),
+        picked, MID(padded, 1 + skipping, LEN(chars)),
+        stripped, SUBSTITUTE(picked, sep, """"),
+        stripped
+))"
+,'ddd',,,
+,,,,
+,,,,
+,,,,def str.split(chars)
+,"=""'"" & str.split("" bbb  cc ddd  e   "") & ""'""",,,"=LAMBDA(chars,
+    LET(
+        sep, "" "",
+        washed, str.replace.wash(chars),
+        squashed, str.split.squash(washed, sep),
+        chopped, SUBSTITUTE(squashed, sep, """"),
+        len_shards, 1 + LEN(squashed) - LEN(chopped),
+        shards, str.split.which(squashed, sep, SEQUENCE(len_shards) - 1),
+        IF(LEN(chopped), shards, SEQUENCE(0))
+))"
+,'bbb',,,
+,'cc',,,
+,'ddd',,,
+,'e',,,
+,,,,
+,"=list.item(str.split("" bbb  cc ddd  e   ""), 2)",,,
+,ddd,,,
+,,,,
+,,"=str.split(""abc def
+                    ghi"")",,
+,,abc,,
+,,def,,
+,,ghi,,
+,,,,
+,,"=str.split("""")",,# Excel raises CalcError in place of an Empty List
+,,#VALUE!,,
+,,,,
+,,,,
+,,,,"def str.split_sep(chars, sep)"
+,"=""'"" & str.split_sep("".a..b.c.."", ""."") & ""'""",,,"=LAMBDA(chars, sep,
+    LET(
+        chopped, SUBSTITUTE(chars, sep, """"),
+        len_shards, 1 + LEN(chars) - LEN(chopped),
+        shards, str.split.which(chars, sep, SEQUENCE(len_shards) - 1),
+        IF(LEN(chopped), shards, SEQUENCE(0))
+))"
+,'',,,"# TODO: test with Sep of more than 1 char, & with Sep of 0 chars"
+,'a',,,
+,'',,,
+,'b',,,
+,'c',,,
+,'',,,
+,'',,,
+,,,,
+,,,,
+,,,,"def str.split_maxsplit(chars, sep, maxsplit)"
+,,,,# TODO: code for str.split_maxsplit
+,,,,
+,,,,
+,,,,def str.splitlines(chars)
+,,"=str.splitlines(""abc def
+                          ghi"")",,"=LAMBDA(chars,
+    LET(
+        lf, UNICHAR(10),
+        cr, UNICHAR(13),
+        chars_crlf, SUBSTITUTE(chars, cr & lf, lf),
+        chars_cr, SUBSTITUTE(chars, cr, lf),
+        shards, str.split_sep(chars_cr, lf),
+        shards
+))"
+,,abc def,,# TODO: compare to the set of line seps in Python
+,,                          ghi,,
+,,,,
+,,,,
+,,,,"def str.splitlines_keepends(chars, keepends)"
 ,,,,
 ,,,,
 ,,,,def str.sorted(chars)
-,,,,=LAMBDA items or chars
+,"=str.join("""", str.sorted(""Abracadabra""))",,,"=LAMBDA(chars, SORT(MID(chars, SEQUENCE(LEN(chars)), 1)))"
+,Aaaaabbcdrr,,,
+,,,,
+,,,,
+,,,,def str.strip(chars)
+,"=""'"" & str.strip(""  a  b  "") & ""'""",,,"=LAMBDA(chars,
+    LET(
+        rstripped, str.rstrip(chars),
+        lrstripped, str.lstrip(rstripped),
+        lrstripped
+))"
+,'a  b',,,"# Python ""str.strip"" can layer on ""str.strip_seps"""
+,,,,
+,"=""'"" & str.strip(""z  a  b  z"") & ""'""",,,
+,'z  a  b  z',,,
+,,,,
+,"=""'"" & str.strip("""") & ""'""",,,
+,'',,,
+,,,,
+,,,,
+,,,,"def str.strip_seps(chars, seps)"
+,"=""'"" & str.strip_seps(""-+a-+b-+"", ""+-"") & ""'""",,,"=LAMBDA(chars, seps,
+    LET(
+        rstripped, str.rstrip_seps(chars, seps),
+        lrstripped, str.lstrip_seps(rstripped, seps),
+        lrstripped
+))"
+,'a-+b',,,
+,,,,
+,"=""'"" & str.strip_seps(""z-+a-+b-+z"", ""+-"") & ""'""",,,
+,'z-+a-+b-+z',,,
+,,,,
+,"=""'"" & str.strip_seps("""", ""+-"") & ""'""",,,
+,'',,,
 ,,,,
 ,,,,
 ,chars,str.upper(chars),,def str.upper(chars)

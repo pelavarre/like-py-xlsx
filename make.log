@@ -12,12 +12,12 @@ xlslisp: writing 6122 chars of 165 rows to:  welcome.csv
 xlslisp: writing 914 chars of 37 rows to:  bool.csv
 xlslisp: writing 4328 chars of 166 rows to:  int.csv
 xlslisp: writing 1180 chars of 48 rows to:  float.csv
-xlslisp: writing 7317 chars of 194 rows to:  str.csv
-xlslisp: writing 3578 chars of 165 rows to:  list.csv
+xlslisp: writing 15869 chars of 346 rows to:  str.csv
+xlslisp: writing 4597 chars of 192 rows to:  list.csv
 xlslisp: writing 1362 chars of 51 rows to:  function.csv
 xlslisp: writing 8002 chars of 285 rows to:  object.csv
 xlslisp: writing 681 chars of 36 rows to:  keystrokes.csv
 xlslisp: writing 2892 chars of 84 rows to:  etc.csv
-xlslisp: writing 137 chars of 14 rows to:  scraps.csv
-xlslisp: elapsed time of 0:00:00.150631 since 2021-07-05 16:35:41.580257
+xlslisp: writing 12 chars of 3 rows to:  scraps.csv
+xlslisp: elapsed time of 0:00:00.188006 since 2021-07-05 22:21:08.359581
 (PIPS) %
